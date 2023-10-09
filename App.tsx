@@ -1,7 +1,14 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'react-native';
+import { 
+  StatusBar, 
+  StyleSheet,
+  SafeAreaView,
+  useColorScheme,
+} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SuccessScreen from './components/SuccessScreen';
 import HomeScreen from './components/HomeScreen';
@@ -14,6 +21,11 @@ import AvailableProductsScreen from './components/AvailableProductsScreen';
 const Stack = createNativeStackNavigator();
 
 const App = (): React.ReactElement => {
+  
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={PlaidTheme}>
