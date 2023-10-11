@@ -55,7 +55,7 @@ app.post('/api/create_link_token', async (req, res, next) => {
       user: {client_user_id: req.sessionID},
       client_name: 'Plaid Tiny Quickstart - React Native',
       language: 'en',
-      products: ['auth'],
+      products: ['auth', 'identity', 'transactions', 'assets'],
       country_codes: ['US'],
       android_package_name: process.env.PLAID_ANDROID_PACKAGE_NAME,
     };
@@ -76,7 +76,13 @@ app.post('/api/exchange_public_token', async (req, res, next) => {
   req.session.access_token = exchangeResponse.data.access_token;
   res.json(true);
 
-  console.log(req.session.access_token)
+  console.log("Token: "+ req.session.access_token);
+});
+
+app.get('/api/useExistingToken', async (req, res, next) => {
+  req.session.access_token = "access-sandbox-46e67e7b-0f38-4526-93a2-d9f43ca3cffc";
+  
+  res.json(true);
 });
 
 // Fetches balance data using the Node client library for Plaid
@@ -123,25 +129,22 @@ app.post('/api/transactions/get', async (req, res, next) => {
   const access_token = req.session.access_token;
   
   const request = {
-
-    access_token: access_token,
-  
-    start_date: '2018-01-01',
-  
-    end_date: '2020-02-01'
-  
+    access_token: access_token,  
+    start_date: req.body.start_date,  
+    end_date: req.body.end_date  
   };
-  const transactionsResponse = await client.transactionsGet(request);
-  res.json({
-    transactions: transactionsResponse.data.transactions,
-  });
-  const total_transactions = transactionsResponse.data.total_transactions;
+  console.log("first transactionGet")
 
-  while (transactionsResponse.data.transactions.length < total_transactions) {
+  const response = await client.transactionsGet(request);
+  let transactions = response.data.transactions;
+  const total_transactions = response.data.total_transactions;
+
+  console.log("transactionGet loop")
+  while (transactions.length < total_transactions) {
     const paginatedRequest = {
       access_token: access_token,
-      start_date: '2018-01-01',
-      end_date: '2020-02-01',
+      start_date: req.body.start_date,  
+      end_date: req.body.end_date,  
       options: {
         offset: transactions.length
       },
@@ -151,6 +154,11 @@ app.post('/api/transactions/get', async (req, res, next) => {
       paginatedResponse.data.transactions,
     );
   }
+  console.log("second transactionGet")
+
+  res.json({
+    transactions
+  });
 });
 
 app.listen(port, () => {

@@ -47,10 +47,31 @@ const IdentityScreen = ({ navigation, route }: any) => {
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          "start_date": '2018-01-01',  
+          "end_date": '2023-02-01'   
+        }),
       })
       .then((response) => response.json())
       .then((data) => {
-        setTransactions(data);
+        let temp:Array<{date:string, amount:string, name:string}> = [];
+        for (let i = 0; i < data.transactions.length; i++) {
+          let date = data.transactions[i].authorized_date;
+          let amount = data.transactions[i].amount;
+          let name = data.transactions[i].merchant_name;
+          
+          let obj = {
+            date,
+            amount, 
+            name
+          };
+
+          // Negative values can estimate income
+          if (amount < 0)
+          temp.push(obj);
+        }
+
+        setTransactions(temp);
       })
       .catch((err) => {
         console.log(err);
@@ -61,13 +82,10 @@ const IdentityScreen = ({ navigation, route }: any) => {
       if (identity == null) {
         getIdentity();
       }
-    }, [identity])
-
-    useEffect(() => {
       if (transactions == null) {
         getTransactions();
       }
-    }, [transactions])
+    }, [transactions, identity])
 
     // Shows the loading circle while waiting for the API to return info
     if (identity == null || transactions == null) {
@@ -94,12 +112,13 @@ const IdentityScreen = ({ navigation, route }: any) => {
       </ScrollView>
 
       <ScrollView style={styles.scrollView}>
-        <Text style={styles.baseText}>
-          Transactions: 
-            {
-              JSON.stringify(transactions, null, 2)
-            }
-        </Text>
+        {
+          transactions.map(transaction => {
+            return <Text style={styles.baseText}>
+              - name: {transaction.name == null ? "No name found" : transaction.name} - ${transaction.amount} - date: {transaction.date}
+            </Text>
+          })
+        }        
       </ScrollView>
            
       <View style={styles.body}>

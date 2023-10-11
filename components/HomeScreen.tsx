@@ -8,6 +8,7 @@ var styles = require('./style');
 
 const HomeScreen = ({ navigation }: any) => {
   const [linkToken, setLinkToken] = useState(null);
+  const [isTokenAvailable, setIsTokenAvailable] = useState(null);
   const address = '10.0.2.2';
 
   const createLinkToken = useCallback(async () => {   
@@ -21,15 +22,40 @@ const HomeScreen = ({ navigation }: any) => {
     .then((response) => response.json())
     .then((data) => {
       setLinkToken(data.link_token);
+      console.log("link token set_____________________________________")
     })
     .catch((err) => {
       console.log(err);
     });
   }, [setLinkToken])
 
+  const searchToken = useCallback(async () => {   
+    await fetch(`http://${address}:8080/api/useExistingToken`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    }
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setIsTokenAvailable(data); 
+      console.log(data);     
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, [setIsTokenAvailable])
+
   useEffect(() => {
     if (linkToken == null) {
       createLinkToken();
+    }
+    // If the token is good, move to the options screen (bypass login)
+    if (isTokenAvailable == null) {
+      searchToken();
+    }
+    if (isTokenAvailable) {
+      navigation.navigate('Options', true);
     }
   }, [linkToken]);
   console.log("HomeScreen Start")

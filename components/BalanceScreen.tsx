@@ -66,7 +66,7 @@ const BalanceScreen = ({ navigation, route }: any) => {
       <ScrollView style={styles.scrollView}>
         <Text style={styles.baseText}>          
             {
-              JSON.stringify(balance.Balance.accounts[0].balances, null, 2)
+              JSON.stringify(balance, null, 2)
             }
         </Text>
       </ScrollView>
