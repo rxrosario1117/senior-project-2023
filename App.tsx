@@ -17,6 +17,7 @@ import OptionsScreen from './components/OptionsScreen';
 import IdentityScreen from './components/IdentityScreen';
 import BalanceScreen from './components/BalanceScreen';
 import AvailableProductsScreen from './components/AvailableProductsScreen';
+import SavingsScreen from './components/SavingsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -89,6 +90,17 @@ const App = (): React.ReactElement => {
                 backgroundColor: '#000000',
               },
               headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="Savings"
+            component={SavingsScreen}
+            options={{
+              headerStyle: {
+                backgroundColor: '#000000',
+              },
+              headerTintColor: '#fff',
+              
             }}
           />
         </Stack.Navigator>

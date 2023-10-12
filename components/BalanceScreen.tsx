@@ -39,7 +39,7 @@ const BalanceScreen = ({ navigation, route }: any) => {
     .catch((err) => {
       console.log(err);
     });
-  });
+  }, []);
 
   useEffect(() => {
     if (balance == null) {

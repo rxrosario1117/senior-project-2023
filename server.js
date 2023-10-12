@@ -76,18 +76,22 @@ app.post('/api/exchange_public_token', async (req, res, next) => {
   req.session.access_token = exchangeResponse.data.access_token;
   res.json(true);
 
+  console.log('----------------------------------------After Public Key Echange - Access Token----------------------------------------')
   console.log("Token: "+ req.session.access_token);
 });
 
-app.get('/api/useExistingToken', async (req, res, next) => {
-  req.session.access_token = "access-sandbox-46e67e7b-0f38-4526-93a2-d9f43ca3cffc";
+// app.get('/api/useExistingToken', async (req, res, next) => {
+//   req.session.access_token = "access-sandbox-7f765ded-36f5-446b-8b39-0d8539160c4b";
   
-  res.json(true);
-});
+  
+//   res.json(true);
+// });
 
 // Fetches balance data using the Node client library for Plaid
 app.post('/api/balance', async (req, res, next) => {
   const access_token = req.session.access_token;
+  console.log('----------------------------------------Balance Access Token----------------------------------------')
+  console.log(access_token);
   const balanceResponse = await client.accountsBalanceGet({access_token});
   res.json({
     Balance: balanceResponse.data,
@@ -96,8 +100,9 @@ app.post('/api/balance', async (req, res, next) => {
 
 // Fetches balance data using the Node client library for Plaid
 app.post('/api/identity', async (req, res, next) => {
-  console.log("identity")
   const access_token = req.session.access_token;
+  console.log('----------------------------------------Identity Access Token----------------------------------------')
+  console.log(access_token);
   const identityResponse = await client.identityGet({access_token});
   res.json({
     Identity: identityResponse.data,

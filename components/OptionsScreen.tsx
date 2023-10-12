@@ -26,6 +26,10 @@ const OptionsScreen = ({ navigation, route }: any) => {
       navigation.navigate("Products", true);
     }
 
+    const showSavings = () => {
+      navigation.navigate("Savings", true);
+    }
+
   return (
     <View style={{ flex: 1 }} >
       <View style={styles.heading}>
@@ -33,21 +37,22 @@ const OptionsScreen = ({ navigation, route }: any) => {
       </View>
            
       <View style={styles.body}>
-      <TouchableOpacity style={styles.buttonContainer} onPress={showIdentity}>
-        <Text style={styles.buttonText}>Show Identity</Text>
-      </TouchableOpacity>
-      </View>
-
-      <View style={styles.body}>
-      <TouchableOpacity style={styles.buttonContainer} onPress={showBalance}>
-        <Text style={styles.buttonText}>Show Balance</Text>
-      </TouchableOpacity>
-      </View>
-
-      <View style={styles.body}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={showIdentity}>
+          <Text style={styles.buttonText}>Show Identity</Text>
+        </TouchableOpacity>
+      
+        <TouchableOpacity style={styles.buttonContainer} onPress={showBalance}>
+          <Text style={styles.buttonText}>Show Balance</Text>
+        </TouchableOpacity>
+      
         <TouchableOpacity style={styles.buttonContainer} onPress={showProducts}>
           <Text style={styles.buttonText}>Show Products</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity style={styles.buttonContainer} onPress={showSavings}>
+          <Text style={styles.buttonText}>Show $aving$</Text>
+        </TouchableOpacity>
+        
       </View>
     </View>
   );

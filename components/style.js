@@ -78,4 +78,5 @@ module.exports = StyleSheet.create({
   scrollView: {
     marginTop: 10
   }
+  
 });
