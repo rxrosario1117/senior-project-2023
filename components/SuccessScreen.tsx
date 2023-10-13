@@ -30,7 +30,7 @@ const SuccessScreen = ({ navigation, route }: any) => {
     .catch((err) => {
       console.log(err);
     });
-  });
+  }, []);
 
   const getIdentity = useCallback(async () => {
     await fetch(`http://${address}:8080/api/identity`, {
@@ -46,7 +46,7 @@ const SuccessScreen = ({ navigation, route }: any) => {
     .catch((err) => {
       console.log(err);
     });
-  });
+  }, []);
 
   useEffect(() => {
     if (identity == null) {
