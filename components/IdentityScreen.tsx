@@ -39,7 +39,7 @@ const IdentityScreen = ({ navigation, route }: any) => {
       .catch((err) => {
         console.log(err);
       });
-    });
+    }, []);
 
     const getTransactions = useCallback(async () => {
       await fetch(`http://${address}:8080/api/transactions/get`, {
@@ -49,7 +49,7 @@ const IdentityScreen = ({ navigation, route }: any) => {
         },
         body: JSON.stringify({
           "start_date": '2018-01-01',  
-          "end_date": '2023-02-01'   
+          "end_date": '2024-02-01'   
         }),
       })
       .then((response) => response.json())
@@ -59,15 +59,17 @@ const IdentityScreen = ({ navigation, route }: any) => {
           let date = data.transactions[i].authorized_date;
           let amount = data.transactions[i].amount;
           let name = data.transactions[i].merchant_name;
+          let category = data.transactions[i].category[0];
           
           let obj = {
             date,
             amount, 
-            name
+            name,
+            category
           };
 
           // Negative values can estimate income
-          if (amount < 0)
+          // if (amount < 0)
           temp.push(obj);
         }
 
@@ -76,7 +78,7 @@ const IdentityScreen = ({ navigation, route }: any) => {
       .catch((err) => {
         console.log(err);
       });
-    });
+    }, []);
 
     useEffect(() => {
       if (identity == null) {
@@ -115,7 +117,8 @@ const IdentityScreen = ({ navigation, route }: any) => {
         {
           transactions.map(transaction => {
             return <Text style={styles.baseText}>
-              - name: {transaction.name == null ? "No name found" : transaction.name} - ${transaction.amount} - date: {transaction.date}
+              - name: {transaction.name == null ? "No name found" : transaction.name} 
+              - ${transaction.amount} - date: {transaction.date} - category: {transaction.category}
             </Text>
           })
         }        

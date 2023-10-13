@@ -1,6 +1,6 @@
 import { link } from 'fs';
 import React, {useState, useEffect, useCallback} from 'react';
-import { Platform, View, Text, StyleSheet } from 'react-native';
+import { Platform, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {PlaidLink, LinkExit, LinkSuccess } from 'react-native-plaid-link-sdk';
 
 var styles = require('./style');
@@ -22,7 +22,6 @@ const HomeScreen = ({ navigation }: any) => {
     .then((response) => response.json())
     .then((data) => {
       setLinkToken(data.link_token);
-      console.log("link token set_____________________________________")
     })
     .catch((err) => {
       console.log(err);
@@ -48,17 +47,19 @@ const HomeScreen = ({ navigation }: any) => {
 
   useEffect(() => {
     if (linkToken == null) {
+      console.log('create link token')
       createLinkToken();
     }
-    // If the token is good, move to the options screen (bypass login)
-    if (isTokenAvailable == null) {
-      searchToken();
-    }
-    if (isTokenAvailable) {
-      navigation.navigate('Options', true);
-    }
+    // // If the token is good, move to the options screen (bypass login)
+    // if (isTokenAvailable == null) {
+    //   searchToken();
+    // }
+    // if (isTokenAvailable) {
+    //   navigation.navigate('Options', true);
+    // }
   }, [linkToken]);
   console.log("HomeScreen Start")
+
   return (
     <View style={{flex: 1}}>
       <View style={styles.heading}>
