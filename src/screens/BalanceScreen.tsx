@@ -10,11 +10,12 @@ import {
   SafeAreaView,
   ScrollView
 } from 'react-native';
+import BalanceAPI from '../components/apiCall/Balance/BalanceAPI';
 var styles = require('./style');
 
 const BalanceScreen = ({ navigation, route }: any) => {
   const [data, setData] = useState(null);
-  const [balance, setBalance] = useState(null);
+  let balance = BalanceAPI();
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
   const showIdentity = () => {
@@ -24,28 +25,6 @@ const BalanceScreen = ({ navigation, route }: any) => {
   const showOptions = () => {
     navigation.navigate("Options", true);
   }
-
-  const getBalance = useCallback(async () => {
-    await fetch(`http://${address}:8080/api/balance`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      setBalance(data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (balance == null) {
-      getBalance();
-    }
-  }, [balance])
 
   // Shows the loading circle while waiting for the API to return info
   if (balance == null) {
@@ -68,6 +47,7 @@ const BalanceScreen = ({ navigation, route }: any) => {
             {
               JSON.stringify(balance, null, 2)
             }
+            
         </Text>
       </ScrollView>
            

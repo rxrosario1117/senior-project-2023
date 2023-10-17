@@ -108,7 +108,8 @@ const IdentityScreen = ({ navigation, route }: any) => {
         <Text style={styles.baseText}>
           Account ID: 
             {
-              JSON.stringify(identity.Identity.accounts[0].account_id, null, 2)
+              // JSON.stringify(identity.Identity.accounts[0].account_id, null, 2)
+              JSON.stringify(identity.Identity.accounts[1].subtype, null, 2)
             }
         </Text>
       </ScrollView>

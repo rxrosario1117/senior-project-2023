@@ -34,7 +34,7 @@ const AvailableProductsScreen = ({ navigation, route }: any) => {
             .catch((err) => {
                 console.log(err);
             });
-        });
+        }, []);
 
         useEffect(() => {
             if (products == null) {
