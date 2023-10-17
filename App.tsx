@@ -18,6 +18,13 @@ import IdentityScreen from './components/IdentityScreen';
 import BalanceScreen from './components/BalanceScreen';
 import AvailableProductsScreen from './components/AvailableProductsScreen';
 import SavingsScreen from './components/SavingsScreen';
+import AppHome from './AppHome'
+import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
+import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
+import NewPasswordScreen from './src/screens/NewPasswordScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +39,16 @@ const App = (): React.ReactElement => {
       <NavigationContainer theme={PlaidTheme}>
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
         <Stack.Navigator>
+        <Stack.Screen
+            name="AppHome"
+            component={AppHome}
+            options={{
+              headerStyle: {
+                backgroundColor: '#000000',
+              },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen
             name="Home"
             component={HomeScreen}
@@ -102,6 +119,31 @@ const App = (): React.ReactElement => {
               headerTintColor: '#fff',
               
             }}
+          />
+
+<Stack.Screen
+            name="SignIn"
+            component={SignInScreen}
+          />
+
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpScreen}
+          />
+
+          <Stack.Screen
+            name="Confirm"
+            component={ConfirmEmailScreen}
+          />
+
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPasswordScreen}
+          />
+
+          <Stack.Screen
+            name="NewPassword"
+            component={NewPasswordScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
