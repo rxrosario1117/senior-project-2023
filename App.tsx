@@ -10,6 +10,14 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import SuccessScreen from './components/SuccessScreen';
+import HomeScreen from './components/HomeScreen';
+import { PlaidTheme } from './components/style';
+import OptionsScreen from './components/OptionsScreen';
+import IdentityScreen from './components/IdentityScreen';
+import BalanceScreen from './components/BalanceScreen';
+import AvailableProductsScreen from './components/AvailableProductsScreen';
+import SavingsScreen from './components/SavingsScreen';
 
 const Stack = createNativeStackNavigator();
 
