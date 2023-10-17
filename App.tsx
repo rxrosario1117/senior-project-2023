@@ -10,20 +10,21 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import SuccessScreen from './components/SuccessScreen';
-import HomeScreen from './components/HomeScreen';
-import { PlaidTheme } from './components/style';
-import OptionsScreen from './components/OptionsScreen';
-import IdentityScreen from './components/IdentityScreen';
-import BalanceScreen from './components/BalanceScreen';
-import AvailableProductsScreen from './components/AvailableProductsScreen';
-import SavingsScreen from './components/SavingsScreen';
+import SuccessScreen from './src/screens/SuccessScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import { PlaidTheme } from './src/screens/style';
+import OptionsScreen from './src/screens/OptionsScreen';
+import IdentityScreen from './src/screens/IdentityScreen';
+import BalanceScreen from './src/screens/BalanceScreen';
+import AvailableProductsScreen from './src/screens/AvailableProductsScreen';
+import SavingsScreen from './src/screens/SavingsScreen';
 import AppHome from './AppHome'
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
+
 
 
 const Stack = createNativeStackNavigator();
