@@ -68,6 +68,7 @@ const BalanceScreen = ({ navigation, route }: any) => {
             {
               JSON.stringify(balance, null, 2)
             }
+            
         </Text>
       </ScrollView>
            
