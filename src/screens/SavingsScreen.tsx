@@ -54,16 +54,17 @@ const SavingsScreen = ({ navigation }: any) => {
   let numOfAccounts = 0;
 
 
-  let nums = [
-    transactions.transactions.transactions[0].amount,
-    transactions.transactions.transactions[1].amount,
-    transactions.transactions.transactions[2].amount,                    
-    transactions.transactions.transactions[4].amount,                    
-    transactions.transactions.transactions[5].amount,                    
-    transactions.transactions.transactions[3].amount
-  ]
-  
-  
+  let nums = []
+
+  let i = 0;
+
+  if (transactions != null) {    
+      for (i = 0; i < 15; i++) {
+        if (transactions.transactions.transactions[i].amount > 0) {
+          nums.push(transactions.transactions.transactions[i].amount);
+        }
+      }
+  }
 
   return (
     <SafeAreaView>      
@@ -121,7 +122,6 @@ const SavingsScreen = ({ navigation }: any) => {
               borderRadius: 16
             }}
           />
-          <Text>Try to get for loop working to fill the graph with positive transaction val's only</Text>
 
           {/* under line chart */}
           <Text>
