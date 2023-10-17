@@ -18,6 +18,12 @@ import IdentityScreen from './src/screens/IdentityScreen';
 import BalanceScreen from './src/screens/BalanceScreen';
 import AvailableProductsScreen from './src/screens/AvailableProductsScreen';
 import SavingsScreen from './src/screens/SavingsScreen';
+import AppHome from './AppHome'
+import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
+import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
+import NewPasswordScreen from './src/screens/NewPasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
