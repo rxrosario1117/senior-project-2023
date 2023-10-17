@@ -25,8 +25,6 @@ import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
 
-
-
 const Stack = createNativeStackNavigator();
 
 const App = (): React.ReactElement => {
