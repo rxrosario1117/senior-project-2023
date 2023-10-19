@@ -267,6 +267,7 @@ dependencies {
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
 
+
     implementation 'com.plaid.link:sdk-core:3.14.0'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
