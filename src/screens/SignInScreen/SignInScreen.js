@@ -23,7 +23,7 @@ const SignInScreen = () => {
     const onSignInPressed = () => {
         // validate user
 
-        navigation.navigate('Home')
+        navigation.navigate('BottomScreenNavigator')
     };
 
     const onForgotPasswordPressed = () => {

@@ -25,7 +25,9 @@ import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
 
-const Stack = createNativeStackNavigator();
+import BottomScreenNavigator from './src/components/BottomScreenNavigator';
+
+// const Tab = createBottomTabNavigator();
 
 const App = (): React.ReactElement => {
   
@@ -33,117 +35,55 @@ const App = (): React.ReactElement => {
     SplashScreen.hide();
   }, []);
 
+  const Stack = createNativeStackNavigator();
+
+  // Removed for better readability, SHOULD PROB PUT BACK after component in each Stack.Screen tag
+    // options={{
+    //   headerStyle: {
+    //     backgroundColor: '#000000',
+    //   },
+    //   headerTintColor: '#fff',
+    // }}
+
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={PlaidTheme}>
+        
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
+
         <Stack.Navigator>
-        <Stack.Screen
-            name="AppHome"
-            component={AppHome}
+          <Stack.Screen 
+            name="AppHome" 
+            component={AppHome} 
             options={{
               headerStyle: {
                 backgroundColor: '#000000',
               },
               headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Success"
-            component={SuccessScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Options"
-            component={OptionsScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Identity"
-            component={IdentityScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Balance"
-            component={BalanceScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Products"
-            component={AvailableProductsScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Savings"
-            component={SavingsScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-              
-            }}
+              }} 
           />
 
-<Stack.Screen
-            name="SignIn"
-            component={SignInScreen}
-          />
+          <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />
 
-          <Stack.Screen
-            name="SignUp"
-            component={SignUpScreen}
-          />
+          <Stack.Screen name="Success" component={SuccessScreen} />
 
-          <Stack.Screen
-            name="Confirm"
-            component={ConfirmEmailScreen}
-          />
+          <Stack.Screen name="Identity" component={IdentityScreen} />
 
-          <Stack.Screen
-            name="ForgotPassword"
-            component={ForgotPasswordScreen}
-          />
+          <Stack.Screen name="Balance" component={BalanceScreen} />
 
-          <Stack.Screen
-            name="NewPassword"
-            component={NewPasswordScreen}
-          />
+          <Stack.Screen name="Products" component={AvailableProductsScreen} />
+
+          <Stack.Screen name="Savings" component={SavingsScreen} />
+
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+
+          <Stack.Screen name="Confirm" component={ConfirmEmailScreen} />
+
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+
+          <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
