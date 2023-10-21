@@ -38,6 +38,16 @@ const App = (): React.ReactElement => {
       <NavigationContainer theme={PlaidTheme}>
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
         <Stack.Navigator>
+        <Stack.Screen
+            name="AppHome"
+            component={AppHome}
+            options={{
+              headerStyle: {
+                backgroundColor: '#000000',
+              },
+              headerTintColor: '#fff',
+            }}
+          />
           <Stack.Screen
             name="Home"
             component={HomeScreen}
@@ -108,6 +118,31 @@ const App = (): React.ReactElement => {
               headerTintColor: '#fff',
               
             }}
+          />
+
+<Stack.Screen
+            name="SignIn"
+            component={SignInScreen}
+          />
+
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpScreen}
+          />
+
+          <Stack.Screen
+            name="Confirm"
+            component={ConfirmEmailScreen}
+          />
+
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPasswordScreen}
+          />
+
+          <Stack.Screen
+            name="NewPassword"
+            component={NewPasswordScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

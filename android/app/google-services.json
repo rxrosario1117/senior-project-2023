@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "425443338100",
+    "project_id": "budget-buddy-54ea6",
+    "storage_bucket": "budget-buddy-54ea6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425443338100:android:d75102fdb6c59e2dd62e21",
+        "android_client_info": {
+          "package_name": "com.tinyquickstartreactnative"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425443338100-2s0ke8i4hjrl3as1nrco0jqdmphoib0i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tinyquickstartreactnative",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "425443338100-fie9nft3pg27c43a3pef88f3cpmvmmm1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBI58SkmiqbN0VYRDEUIMz1xq8g9ohFfP4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425443338100-fie9nft3pg27c43a3pef88f3cpmvmmm1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
