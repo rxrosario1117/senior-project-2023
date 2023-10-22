@@ -24,6 +24,7 @@ import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
 
 import BottomScreenNavigator from './src/components/BottomScreenNavigator';
+import TopScreenNavigator from './src/components/TopScreenNavigator';
 
 // const Tab = createBottomTabNavigator();
 
@@ -62,6 +63,8 @@ const App = (): React.ReactElement => {
           />
 
           <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />
+
+          <Stack.Screen name="TopScreenNavigator" component={TopScreenNavigator} />
 
           <Stack.Screen name="Success" component={SuccessScreen} />
 
