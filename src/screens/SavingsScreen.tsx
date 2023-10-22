@@ -23,8 +23,7 @@ import {
   StackedBarChart
 } from "react-native-chart-kit";
 import TransactionsAPI from '../components/apiCall/Transactions/TransactionsAPI';
-
-
+import TopScreenNavigator from '../components/TopScreenNavigator'
 
 const SavingsScreen = ({ navigation }: any) => {
   let transactions = TransactionsAPI();
@@ -52,8 +51,6 @@ const SavingsScreen = ({ navigation }: any) => {
   }
 
   let numOfAccounts = 0;
-
-
   let nums = []
 
   let i = 0;
@@ -69,21 +66,6 @@ const SavingsScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView>      
       <ScrollView>
-        <View style={styles.container}>
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.title}>Savings</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.title}>Cash</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.title}>Spending</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer}>
-                <Text style={styles.title}>Credit Card</Text>
-            </TouchableOpacity>
-        </View>
-
         <View>
           <Text>Bezier Line Chart</Text>
           <LineChart
