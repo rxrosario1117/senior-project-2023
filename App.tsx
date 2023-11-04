@@ -22,6 +22,8 @@ import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
+import EducationScreen from './src/screens/EducationScreen';
+
 import TempScreen from './src/screens/TempScreen'
 
 import BottomScreenNavigator from './src/components/BottomScreenNavigator';
@@ -86,6 +88,8 @@ const App = (): React.ReactElement => {
           <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
 
           <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
+
+          <Stack.Screen name="Education" component={EducationScreen} />
 
           <Stack.Screen name="TempScreen" component={TempScreen} />
         </Stack.Navigator>

@@ -58,8 +58,8 @@ const HomeScreen = ({ navigation }: any) => {
     if (linkToken == null) {
       console.log('create link token')
       createLinkToken();
-    }
-    
+    }    
+
   }, [linkToken]);
   console.log("HomeScreen Start")
 
@@ -86,7 +86,7 @@ const HomeScreen = ({ navigation }: any) => {
             .catch((err) => {
               console.log(err);
             });
-            navigation.navigate('TopScreenNavigator', success);
+            navigation.navigate('BottomScreenNavigator', success);
           }}
           onExit={(response: LinkExit) => {
             console.log(response);
