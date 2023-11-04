@@ -23,7 +23,7 @@ const SignInScreen = () => {
     const onSignInPressed = () => {
         // validate user
 
-        navigation.navigate('Home')
+        navigation.navigate('BottomScreenNavigator')
     };
 
     const onForgotPasswordPressed = () => {
@@ -44,7 +44,7 @@ const SignInScreen = () => {
         const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
         if (idToken != null) {
-            navigation.navigate('Home');
+            navigation.navigate('BottomScreenNavigator')
           }
       
         // Sign-in the user with the credential
