@@ -13,7 +13,7 @@ export default function BottomScreenNavigator() {
 
 
     return (
-      <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: true}}>
+      <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}}>
         <Tab.Screen
           name='Home'
           component={TopScreenNavigator}
