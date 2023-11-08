@@ -1,16 +1,17 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
 import SignInScreen from './src/screens/SignInScreen';
-import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
-import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
-import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
-import NewPasswordScreen from './src/screens/NewPasswordScreen';
-
+import GoalsScreen from './src/screens/GoalsScreen';
+import { BudgetsProvider } from './src/contexts/BudgetsContext';
+import Dropdown from './src/Dropdown';
 
 const AppHome = () => {
     return (
         <SafeAreaView style={styles.root}>
-            <SignInScreen/>
+            
+            <BudgetsProvider>
+            <GoalsScreen/>
+            </BudgetsProvider>
         </SafeAreaView>
     );
 };
