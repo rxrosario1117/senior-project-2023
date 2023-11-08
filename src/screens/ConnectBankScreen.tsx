@@ -41,22 +41,25 @@ const HomeScreen = ({ navigation }: any) => {
       console.log(data);     
     })
     .catch((err) => {
-      console.log(err);
+      console.warn(err);
     });
   }, [setIsTokenAvailable])
 
   useEffect(() => {
+    // If the token is good, move to the options screen (bypass login)
+    if (isTokenAvailable == null) {
+      console.log('searching')
+      searchToken();
+    }
+    if (isTokenAvailable) {
+      console.log('found')
+      navigation.navigate('TopScreenNavigator', true);
+    }
     if (linkToken == null) {
       console.log('create link token')
       createLinkToken();
-    }
-    // // If the token is good, move to the options screen (bypass login)
-    // if (isTokenAvailable == null) {
-    //   searchToken();
-    // }
-    // if (isTokenAvailable) {
-    //   navigation.navigate('Options', true);
-    // }
+    }    
+
   }, [linkToken]);
   console.log("HomeScreen Start")
 
@@ -83,7 +86,7 @@ const HomeScreen = ({ navigation }: any) => {
             .catch((err) => {
               console.log(err);
             });
-            navigation.navigate('Options', success);
+            navigation.navigate('BottomScreenNavigator', success);
           }}
           onExit={(response: LinkExit) => {
             console.log(response);
