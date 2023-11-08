@@ -1,7 +1,11 @@
+import { reduce } from 'lodash';
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 
 const CustomButton = ({ onPress, text, type = "PRIMARY", bgColor, fgColor}) => {
+
+  
+
     return (
         <Pressable 
           onPress={onPress} 
@@ -48,7 +52,13 @@ const styles = StyleSheet.create({
     },
 
     container_TERTIARY: {
+        borderColor:'gray',
+        borderWidth: 2
 
+    },
+
+    container_QUATERNARY: {
+        backgroundColor: 'red',
     },
 
     text: {
