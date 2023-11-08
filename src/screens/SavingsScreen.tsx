@@ -65,14 +65,17 @@ const SavingsScreen = ({ navigation }: any) => {
   let transactionDates = []
   let transactionAmounts = []
   let dataPoints = []
+  let accountLastFour = [] 
 
   // Sets the savings account list
   for (let i = 0; i < numOfaccounts; i++) {
     let name = identity.identity.Identity.accounts[i].name;
     let accountNum = identity.identity.Identity.accounts[i].account_id;
+    let maskNum = identity.identity.Identity.accounts[i].mask;
   
     if (name.includes("Saving")) {
       savingsAccountList.push(accountNum)
+      accountLastFour.push(maskNum)
     }
   }
 
@@ -213,7 +216,7 @@ const SavingsScreen = ({ navigation }: any) => {
     <SafeAreaView>      
       <ScrollView>
         <View>
-          <Text>Transactions Tracker</Text>
+          <Text style={styles.title}>Transactions Tracker</Text>
           <LineChart
             data={{
               labels: months,
@@ -252,7 +255,7 @@ const SavingsScreen = ({ navigation }: any) => {
           />
           {/* under line chart */}
 
-          <Text>Account: {savingsAccountList[0]}</Text>
+          <Text style={styles.title}>Account: ...{accountLastFour[0]}</Text>
 
           <SelectList 
             setSelected={(val) => setSelectedMonth(val)} 
@@ -268,30 +271,23 @@ const SavingsScreen = ({ navigation }: any) => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        position: 'absolute',
-        padding: 15,
-        backgroundColor: '#FFFFFF',
-      },
-      buttonContainer: {
-        paddingEnd: 10,
-        width: '25%'
-      },
-      title: {
-        marginTop: 16,
-        paddingVertical: 8,
-        paddingHorizontal: 8,
-        borderWidth: 4,
-        borderColor: '#20232a',
-        borderRadius: 6,
-        backgroundColor: '#61dafb',
-        color: '#20232a',
-        textAlign: 'center',
-        fontSize: 15,
-        fontWeight: 'bold',
-      },
+
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    padding: 15,
+    backgroundColor: '#FFFFFF',
+  },
+  buttonContainer: {
+    paddingEnd: 10,
+    width: '25%'
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    padding: 10,
+  },
 });
 
 const chartConfig = {
