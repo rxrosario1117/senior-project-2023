@@ -5,6 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import TopScreenNavigator from '../../components/TopScreenNavigator';
 import EducationScreen from '../../screens/EducationScreen';
 import ConnectBankScreen from '../../screens/ConnectBankScreen';
+import AppHome from '../../../AppHome';
 
 export default function BottomScreenNavigator() {
     const Tab = createBottomTabNavigator();
@@ -14,7 +15,7 @@ const initTab = '';
     
     
       return (
-        <Tab.Navigator initialRouteName='Home' screenOptions={{headerShown: false}}>
+        <Tab.Navigator initialRouteName='Connect Bank' screenOptions={{headerShown: false}}>
           <Tab.Screen
             name='Home'
             component={TopScreenNavigator}
@@ -35,6 +36,16 @@ const initTab = '';
           }}
           />
           <Tab.Screen 
+            name='Goals'
+            component={AppHome} 
+          options={{
+            tabBarLabel: 'Goals',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name='bullseye' color={color} size={size} />
+            ),
+          }}
+          />
+          <Tab.Screen 
             name='Connect Bank'
             component={ConnectBankScreen} 
           options={{
@@ -44,6 +55,7 @@ const initTab = '';
             ),
           }}
           />
+          
         </Tab.Navigator>
   
       )

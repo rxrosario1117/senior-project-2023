@@ -53,19 +53,13 @@ const App = (): React.ReactElement => {
         
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
-        <Stack.Navigator>
-          <Stack.Screen 
-            name="AppHome" 
-            component={AppHome} 
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-              }} 
-          />
+        <Stack.Navigator> 
 
-          <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />
+
+          <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />    
+
+          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />         
+
 
           <Stack.Screen name="TopScreenNavigator" component={TopScreenNavigator} />
 
@@ -97,5 +91,12 @@ const App = (): React.ReactElement => {
     </SafeAreaProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+      flex: 1,
+      backgroundColor: '#F9FBFC'
+  },
+});
 
 export default App;
