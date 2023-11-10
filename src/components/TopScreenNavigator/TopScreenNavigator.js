@@ -12,7 +12,7 @@ export default function TopScreenNavigator() {
   return (
     <Tab.Navigator initialRouteName='temp'>
       <Tab.Screen name="Savings" component={SavingsScreen} />
-      <Tab.Screen name="Identity" component={IdentityScreen} />
+      <Tab.Screen name="Cash" component={IdentityScreen} />
       <Tab.Screen name="Balance" component={BalanceScreen} />
       <Tab.Screen name="temp" component={TempScreen} />
     </Tab.Navigator>
