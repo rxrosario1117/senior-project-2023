@@ -12,7 +12,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SuccessScreen from './src/screens/SuccessScreen';
 import { PlaidTheme } from './src/screens/style';
-import IdentityScreen from './src/screens/IdentityScreen';
+import CashScreen from './src/screens/CashScreen';
 import BalanceScreen from './src/screens/BalanceScreen';
 import AvailableProductsScreen from './src/screens/AvailableProductsScreen';
 import SavingsScreen from './src/screens/SavingsScreen';
@@ -58,14 +58,14 @@ const App = (): React.ReactElement => {
 
           <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />    
 
-          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />         
+          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />       
 
 
           <Stack.Screen name="TopScreenNavigator" component={TopScreenNavigator} />
 
           <Stack.Screen name="Success" component={SuccessScreen} />
 
-          <Stack.Screen name="Identity" component={IdentityScreen} />
+          <Stack.Screen name="Cash" component={CashScreen} />
 
           <Stack.Screen name="Balance" component={BalanceScreen} />
 
