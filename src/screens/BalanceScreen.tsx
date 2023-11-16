@@ -14,16 +14,30 @@ import BalanceAPI from '../components/apiCall/Balance/BalanceAPI';
 var styles = require('./style');
 
 const BalanceScreen = ({ navigation, route }: any) => {
-  const [data, setData] = useState(null);
   let balance = BalanceAPI();
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
-  const showIdentity = () => {
-      navigation.navigate("Identity", true);
-  }
+  let accounts = [];
+  let accountNames = [];
+  let accountBalances = [];
+  let totalBalance = 0;
 
-  const showOptions = () => {
-    navigation.navigate("Options", true);
+  if (balance != null) {
+    let numOfAccounts = balance?.balance.Balance.accounts.length;
+    totalBalance = 0;
+    
+    // Fill accounts array and get account name/balance and the sum of all balances
+    for (let i = 0; i < numOfAccounts; i++) {
+      let currAccount = balance?.balance.Balance.accounts[i];
+      let currAccountName = currAccount.subtype;
+      let currAccountBal = currAccount.balances.available;
+
+      accounts.push(currAccount);
+      accountNames.push(currAccountName);
+      accountBalances.push(currAccountBal);
+
+      totalBalance += currAccountBal;
+    }    
   }
 
   // Shows the loading circle while waiting for the API to return info
@@ -39,28 +53,13 @@ const BalanceScreen = ({ navigation, route }: any) => {
     // <View style={{ flex: 1 }}>
     <ScrollView style={styles.scrollView}>
       <View style={styles.heading}>
-        <Text style={styles.titleText}>Show Identity/Balance</Text>
+        <Text style={styles.titleText}>Balance</Text>
       </View>
 
-      <ScrollView style={styles.scrollView}>
-        <Text style={styles.baseText}>          
-            {
-              JSON.stringify(balance, null, 2)
-            }
-            
-        </Text>
-      </ScrollView>
-           
-      <View style={styles.body}>
-      <TouchableOpacity style={styles.buttonContainer} onPress={showIdentity}>
-        <Text style={styles.buttonText}>Show Identity</Text>
-      </TouchableOpacity>
-      </View>
-
-      <View style={styles.body}>
-      <TouchableOpacity style={styles.buttonContainer} onPress={showOptions}>
-        <Text style={styles.buttonText}>Back To Options</Text>
-      </TouchableOpacity>
+      <View>
+        <Text style={styles.subTitleText}>{accountNames[0]}: {accountBalances[0]}</Text>
+        <Text style={styles.subTitleText}>{accountNames[1]}: {accountBalances[1]}</Text>
+        <Text style={styles.subTitleText}>Total Balance: {totalBalance}</Text>
       </View>
     </ScrollView>
   );
