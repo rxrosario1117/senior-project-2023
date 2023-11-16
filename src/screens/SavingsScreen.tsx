@@ -25,14 +25,32 @@ import {
 import { SelectList } from 'react-native-dropdown-select-list'
 import TransactionsAPI from '../components/apiCall/Transactions/TransactionsAPI';
 import IdentityAPI from '../components/apiCall/Identity/IdentityAPI';
+import BalanceAPI from '../components/apiCall/Balance/BalanceAPI';
 
 const SavingsScreen = ({ navigation }: any) => {
   let transactions = TransactionsAPI();
   let identity = IdentityAPI();
+  let balance = BalanceAPI();
   
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
+  // Set default month for the dropdown list
   const [selectedMonth, setSelectedMonth] = useState("January");
+  let savingsAccountBal = '';
+
+  // Get savings account from available accounts
+  if (balance != null) {
+    let numOfAccounts = balance?.balance.Balance.accounts.length;  
+    
+    for (let i = 0; i < numOfAccounts; i++) {
+      let currAccount = balance?.balance.Balance.accounts[i];
+
+      if (currAccount.subtype == 'savings') {
+        savingsAccountBal = currAccount.balances.available;
+      }
+    }
+  }
+  
 
   // Dropdown list data
   const dropDownList = [
@@ -89,8 +107,6 @@ const SavingsScreen = ({ navigation }: any) => {
     }
   }
   
-  let monthsTransactions = []
-
   let janTransactions = []
   let febTransactions = []
   let marTransactions = []
@@ -255,7 +271,8 @@ const SavingsScreen = ({ navigation }: any) => {
           />
           {/* under line chart */}
 
-          <Text style={styles.title}>Account: ...{accountLastFour[0]}</Text>
+          <Text style={styles.subTitleText}>Account: ...{accountLastFour[0]}</Text>
+          <Text style={styles.subTitleText}>Current Balance: ${savingsAccountBal}</Text>
 
           <SelectList 
             setSelected={(val) => setSelectedMonth(val)} 
@@ -284,10 +301,17 @@ const styles = StyleSheet.create({
     width: '25%'
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
     padding: 10,
   },
+  subTitleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginTop: 18,
+    marginHorizontal: 10,
+  }
 });
 
 const chartConfig = {

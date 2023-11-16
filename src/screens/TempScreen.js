@@ -6,14 +6,17 @@ import {
 import TransactionsAPI from '../components/apiCall/Transactions/TransactionsAPI';
 import IdentityAPI from '../components/apiCall/Identity/IdentityAPI';
 
+import BalanceAPI from '../components/apiCall/Balance/BalanceAPI';
+
 
 const TempScreen = () => {
 
     let transactions = TransactionsAPI();
     let identity = IdentityAPI();
+    let balance = BalanceAPI();
 
     // Show a loading bar while the transactions are filled
-  if (transactions == null || identity == null) {
+  if (balance == null) {
     return (
       <SafeAreaView>
               <ActivityIndicator />
@@ -21,12 +24,9 @@ const TempScreen = () => {
     )
   }
 
-  // 197 total transactions
-
-
     return (
         <ScrollView>
-            <Text>hey</Text>
+            <Text>{JSON.stringify(balance, null, 2)}</Text>
         </ScrollView>
     )
 

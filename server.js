@@ -166,6 +166,7 @@ app.post('/api/transactions/get', async (req, res, next) => {
   });
 });
 
+// Listen for server start
 app.listen(port, () => {
   console.log(`Backend server is running on port ${port}...`);
 });
