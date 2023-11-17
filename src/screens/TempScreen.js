@@ -1,3 +1,4 @@
+import React, {useState, useEffect, useCallback} from 'react';
 import {
      View, 
      Text, 
@@ -11,22 +12,42 @@ import BalanceAPI from '../components/apiCall/Balance/BalanceAPI';
 
 const TempScreen = () => {
 
-    let transactions = TransactionsAPI();
-    let identity = IdentityAPI();
-    let balance = BalanceAPI();
+
+    const liabilities = useCallback(async () => {   
+      await fetch(`http://${address}:8080/api/liabilities`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      }
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.liability);     
+      })
+      .catch((err) => {
+        console.warn(err);
+      });
+    }, [])
+
+    useEffect(() => {
+      if (liabilities == null) {
+        liabilities();
+        console.log('liabilities was called')
+      }
+    }) 
 
     // Show a loading bar while the transactions are filled
-  if (balance == null) {
-    return (
-      <SafeAreaView>
-              <ActivityIndicator />
-        </SafeAreaView>
-    )
-  }
+  // if (balance == null) {
+  //   return (
+  //     <SafeAreaView>
+  //             <ActivityIndicator />
+  //       </SafeAreaView>
+  //   )
+  // }
 
     return (
         <ScrollView>
-            <Text>{JSON.stringify(balance, null, 2)}</Text>
+            <Text>hey</Text>
         </ScrollView>
     )
 
