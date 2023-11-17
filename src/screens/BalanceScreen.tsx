@@ -18,8 +18,6 @@ const BalanceScreen = ({ navigation, route }: any) => {
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
   let accounts = [];
-  let accountNames = [];
-  let accountBalances = [];
   let totalBalance = 0;
 
   if (balance != null) {
@@ -29,14 +27,10 @@ const BalanceScreen = ({ navigation, route }: any) => {
     // Fill accounts array and get account name/balance and the sum of all balances
     for (let i = 0; i < numOfAccounts; i++) {
       let currAccount = balance?.balance.Balance.accounts[i];
-      let currAccountName = currAccount.subtype;
-      let currAccountBal = currAccount.balances.available;
 
       accounts.push(currAccount);
-      accountNames.push(currAccountName);
-      accountBalances.push(currAccountBal);
 
-      totalBalance += currAccountBal;
+      totalBalance += currAccount.balances.available;
     }    
   }
 
@@ -57,9 +51,14 @@ const BalanceScreen = ({ navigation, route }: any) => {
       </View>
 
       <View>
-        <Text style={styles.subTitleText}>{accountNames[0]}: {accountBalances[0]}</Text>
-        <Text style={styles.subTitleText}>{accountNames[1]}: {accountBalances[1]}</Text>
-        <Text style={styles.subTitleText}>Total Balance: {totalBalance}</Text>
+        {
+          accounts.map(account => (
+            <>
+              <Text style={styles.subTitleText}>{account.subtype}: $ {account.balances.available}</Text>
+            </>
+          ))
+        }
+        <Text style={styles.subTitleText}>Total Balance: $ {totalBalance}</Text>
       </View>
     </ScrollView>
   );

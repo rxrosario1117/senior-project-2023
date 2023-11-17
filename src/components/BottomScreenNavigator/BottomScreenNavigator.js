@@ -9,10 +9,6 @@ import AppHome from '../../../AppHome';
 
 export default function BottomScreenNavigator() {
     const Tab = createBottomTabNavigator();
-
-const initTab = '';
-
-    
     
       return (
         <Tab.Navigator initialRouteName='Connect Bank' screenOptions={{headerShown: false}}>

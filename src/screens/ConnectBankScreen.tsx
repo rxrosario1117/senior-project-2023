@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }: any) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      setIsTokenAvailable(data); 
+      setIsTokenAvailable(data.access_token); 
       console.log(data);     
     })
     .catch((err) => {
@@ -53,11 +53,13 @@ const HomeScreen = ({ navigation }: any) => {
     }
     if (isTokenAvailable) {
       console.log('found')
-      navigation.navigate('TopScreenNavigator', true);
+      navigation.navigate('BottomScreenNavigator', true);
     }
     if (linkToken == null) {
       console.log('create link token')
       createLinkToken();
+
+      navigation.navigate('BottomScreenNavigator', true);
     }    
 
   }, [linkToken]);

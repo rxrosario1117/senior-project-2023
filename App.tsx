@@ -55,11 +55,9 @@ const App = (): React.ReactElement => {
 
         <Stack.Navigator> 
 
+          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />
 
-          <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />    
-
-          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />       
-
+          <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />   
 
           <Stack.Screen name="TopScreenNavigator" component={TopScreenNavigator} />
 
