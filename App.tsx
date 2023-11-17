@@ -54,8 +54,7 @@ const App = (): React.ReactElement => {
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
 
         <Stack.Navigator> 
-
-          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />
+          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />       
 
           <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />   
 
