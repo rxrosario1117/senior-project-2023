@@ -46,7 +46,7 @@ const CashScreen = ({ navigation, route }: any) => {
       let currAccount = balance?.balance.Balance.accounts[i];
 
       if (currAccount.subtype == 'checking') {
-        checkingAccountBal = currAccount.balances.available;
+        checkingAccountBal = currAccount.balances.current;
       }
     }
   }  

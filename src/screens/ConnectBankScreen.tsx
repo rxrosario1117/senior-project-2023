@@ -22,7 +22,7 @@ const HomeScreen = ({ navigation }: any) => {
     .then((response) => response.json())
     .then((data) => {
       setLinkToken(data.link_token);
-    })
+          })
     .catch((err) => {
       console.log(err);
     });
@@ -45,12 +45,13 @@ const HomeScreen = ({ navigation }: any) => {
     });
   }, [setIsTokenAvailable])
 
-  useEffect(() => {
+  useEffect(() => { 
     // If the token is good, move to the options screen (bypass login)
-    if (isTokenAvailable == null) {
-      console.log('searching')
-      searchToken();
-    }
+    // searchToken() doesn't have a public_token to use and will block connections to Plaid
+    // if (isTokenAvailable == null) {
+    //   console.log('searching')
+    //   searchToken();
+    // }
     if (isTokenAvailable) {
       console.log('found')
       navigation.navigate('BottomScreenNavigator', true);
@@ -59,9 +60,8 @@ const HomeScreen = ({ navigation }: any) => {
       console.log('create link token')
       createLinkToken();
 
-      navigation.navigate('BottomScreenNavigator', true);
-    }    
-
+      // navigation.navigate('BottomScreenNavigator', true);
+    }  
   }, [linkToken]);
   console.log("HomeScreen Start")
 

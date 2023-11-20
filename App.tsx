@@ -24,7 +24,7 @@ import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
 import EducationScreen from './src/screens/EducationScreen';
 
-import TempScreen from './src/screens/TempScreen'
+import CreditCardScreen from './src/screens/CreditCardScreen'
 
 import BottomScreenNavigator from './src/components/BottomScreenNavigator';
 import TopScreenNavigator from './src/components/TopScreenNavigator';
@@ -82,7 +82,7 @@ const App = (): React.ReactElement => {
 
           <Stack.Screen name="Education" component={EducationScreen} />
 
-          <Stack.Screen name="TempScreen" component={TempScreen} />
+          <Stack.Screen name="TempScreen" component={CreditCardScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
