@@ -55,7 +55,7 @@ app.post('/api/create_link_token', async (req, res, next) => {
       user: {client_user_id: req.sessionID},
       client_name: 'Plaid Tiny Quickstart - React Native',
       language: 'en',
-      products: ['auth', 'identity', 'transactions', 'assets'],
+      products: ['auth', 'identity', 'transactions', 'assets', 'liabilities'],
       country_codes: ['US'],
       android_package_name: process.env.PLAID_ANDROID_PACKAGE_NAME,
     };
@@ -175,21 +175,32 @@ app.post('/api/transactions/get', async (req, res, next) => {
   });
 });
 
-// // Call liabilities endpoint
-// app.post('/api/liabilities', async (req, res, next) => {
-//   const request = {
-//     client_id: process.env.PLAID_CLIENT_ID,
-//     secret: process.env.PLAID_SECRET,
-//     access_token: req.session.access_token
-//   };
+// Call liabilities endpoint
+app.post('/api/liabilities', async (req, res, next) => {
+  // const request = {
+  //   client_id: process.env.PLAID_CLIENT_ID,
+  //   secret: process.env.PLAID_SECRET,
+  //   access_token: req.session.access_token
+  // };
 
-//   const liabilitiesGetRequest = await client.liabilitiesGetRequest({request});
-//   const liabilitiesResponse = await client.liabilitiesGet(liabilitiesGetRequest);
+  // const request = LiabilitiesGetRequest = {
+  //   access_token: req.session.access_token
+  // };
 
-//   res.json({
-//     liability: liabilitiesResponse.data,
-//   });
-// })
+  const access_token = req.session.access_token;
+
+  try {
+    const liabilitiesResponse = await client.liabilitiesGet({access_token});
+
+    // console.log(liabilitiesResponse)
+
+    res.json({
+      liability: liabilitiesResponse.data,
+    });
+  } catch (err) {
+    console.log(err)
+  }   
+})
 
 // Listen for server start
 app.listen(port, () => {

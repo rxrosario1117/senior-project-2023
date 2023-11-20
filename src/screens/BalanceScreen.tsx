@@ -17,21 +17,26 @@ const BalanceScreen = ({ navigation, route }: any) => {
   let balance = BalanceAPI();
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
-  let accounts = [];
+  let assets = [];
+  let liabilities = [];
   let totalBalance = 0;
+  let numOfAccounts = 0;
 
   if (balance != null) {
-    let numOfAccounts = balance?.balance.Balance.accounts.length;
+    numOfAccounts = balance?.balance.Balance.accounts.length;
     totalBalance = 0;
     
     // Fill accounts array and get account name/balance and the sum of all balances
     for (let i = 0; i < numOfAccounts; i++) {
       let currAccount = balance?.balance.Balance.accounts[i];
+      let accountSubtype = currAccount.subtype;
 
-      accounts.push(currAccount);
-
-      totalBalance += currAccount.balances.available;
-    }    
+      if (accountSubtype == 'credit card' || accountSubtype == 'student' || accountSubtype == 'mortgage') {
+        liabilities.push(currAccount);
+      } else {
+        assets.push(currAccount);
+      }
+    }   
   }
 
   // Shows the loading circle while waiting for the API to return info
@@ -47,18 +52,31 @@ const BalanceScreen = ({ navigation, route }: any) => {
     // <View style={{ flex: 1 }}>
     <ScrollView style={styles.scrollView}>
       <View style={styles.heading}>
-        <Text style={styles.titleText}>Balance</Text>
+        <Text style={styles.titleText}>Assets</Text>
       </View>
 
       <View>
         {
-          accounts.map(account => (
+          assets.map(asset => (
             <>
-              <Text style={styles.subTitleText}>{account.subtype}: $ {account.balances.available}</Text>
+              <Text style={styles.subTitleText}>{asset.subtype}: $ {asset.balances.current}</Text>
             </>
           ))
         }
-        <Text style={styles.subTitleText}>Total Balance: $ {totalBalance}</Text>
+      </View>
+
+      <View style={styles.heading}>
+        <Text style={styles.titleText}>Liabilities</Text>
+      </View>
+
+      <View>
+        {
+          liabilities.map(liability => (
+            <>
+              <Text style={styles.subTitleText}>{liability.subtype}: $ {liability.balances.current}</Text>
+            </>
+          ))
+        }
       </View>
     </ScrollView>
   );

@@ -46,7 +46,7 @@ const SavingsScreen = ({ navigation }: any) => {
       let currAccount = balance?.balance.Balance.accounts[i];
 
       if (currAccount.subtype == 'savings') {
-        savingsAccountBal = currAccount.balances.available;
+        savingsAccountBal = currAccount.balances.current;
       }
     }
   }
