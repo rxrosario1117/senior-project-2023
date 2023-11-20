@@ -6,12 +6,13 @@ import TopScreenNavigator from '../../components/TopScreenNavigator';
 import EducationScreen from '../../screens/EducationScreen';
 import ConnectBankScreen from '../../screens/ConnectBankScreen';
 import AppHome from '../../../AppHome';
+import SettingsScreen from '../../screens/SettingsScreen/SettingsScreen';
 
 export default function BottomScreenNavigator() {
     const Tab = createBottomTabNavigator();
     
       return (
-        <Tab.Navigator initialRouteName='Connect Bank' screenOptions={{headerShown: false}}>
+        <Tab.Navigator initialRouteName='Education' screenOptions={{headerShown: false}}>
           <Tab.Screen
             name='Home'
             component={TopScreenNavigator}
@@ -42,12 +43,12 @@ export default function BottomScreenNavigator() {
           }}
           />
           <Tab.Screen 
-            name='Connect Bank'
-            component={ConnectBankScreen} 
+            name='Settings'
+            component={SettingsScreen} 
           options={{
-            tabBarLabel: 'Connect Bank',
+            tabBarLabel: 'Settings',
             tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name='bank' color={color} size={size} />
+              <MaterialCommunityIcons name='cog' color={color} size={size} />
             ),
           }}
           />

@@ -68,7 +68,7 @@ const HomeScreen = ({ navigation }: any) => {
   return (
     <View style={{flex: 1}}>
       <View style={styles.heading}>
-        <Text style={styles.titleText}>Tiny Quickstart – React Native</Text>
+        <Text style={styles.titleText}>Connect to Your Bank</Text>
       </View>
       <View style={styles.bottom}>
         <PlaidLink
@@ -94,7 +94,7 @@ const HomeScreen = ({ navigation }: any) => {
             console.log(response);
           }}>
           <View style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>Open Link</Text>
+            <Text style={styles.buttonText}>Connect</Text>
           </View>
         </PlaidLink>
       </View>

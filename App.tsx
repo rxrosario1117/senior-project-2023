@@ -23,6 +23,7 @@ import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
 import EducationScreen from './src/screens/EducationScreen';
+import ConnectBankScreen from './src/screens/ConnectBankScreen';
 
 import CreditCardScreen from './src/screens/CreditCardScreen'
 
@@ -60,7 +61,7 @@ const App = (): React.ReactElement => {
 
           <Stack.Screen name="TopScreenNavigator" component={TopScreenNavigator} />
 
-          <Stack.Screen name="Success" component={SuccessScreen} />
+          <Stack.Screen name="ConnectBankScreen" component={ConnectBankScreen} />
 
           <Stack.Screen name="Cash" component={CashScreen} />
 
