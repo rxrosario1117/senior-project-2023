@@ -177,22 +177,10 @@ app.post('/api/transactions/get', async (req, res, next) => {
 
 // Call liabilities endpoint
 app.post('/api/liabilities', async (req, res, next) => {
-  // const request = {
-  //   client_id: process.env.PLAID_CLIENT_ID,
-  //   secret: process.env.PLAID_SECRET,
-  //   access_token: req.session.access_token
-  // };
-
-  // const request = LiabilitiesGetRequest = {
-  //   access_token: req.session.access_token
-  // };
-
   const access_token = req.session.access_token;
 
   try {
     const liabilitiesResponse = await client.liabilitiesGet({access_token});
-
-    // console.log(liabilitiesResponse)
 
     res.json({
       liability: liabilitiesResponse.data,
@@ -200,6 +188,21 @@ app.post('/api/liabilities', async (req, res, next) => {
   } catch (err) {
     console.log(err)
   }   
+})
+
+app.post('/api/itemRemove', async (req, res, next) => {
+  const access_token = req.session.access_token;
+
+  try {
+    const response = await client.itemRemove({access_token});
+
+    res.json({
+      itemResponse: response.data,
+    });   
+
+  } catch (err) {
+      console.log(err)
+  }
 })
 
 // Listen for server start

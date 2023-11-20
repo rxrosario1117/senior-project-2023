@@ -15,10 +15,10 @@ var styles = require('../style');
 const SettingsScreen = ({ navigation, route }: any) => {
   const address = '10.0.2.2';
 
-  const [lib, setLib] = useState(null);
+  const [item, setItem] = useState(null);
   
-  const liabilities = useCallback(async () => {   
-    await fetch(`http://${address}:8080/api/liabilities`, {
+  const unlink = useCallback(async () => {   
+    await fetch(`http://${address}:8080/api/itemRemove`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -26,24 +26,25 @@ const SettingsScreen = ({ navigation, route }: any) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      // console.log(data.liability);  
-      console.log('lib stuff') 
-      setLib(data)  
+      console.log(data) 
+      setItem(data.request_id)
+        
     })
     .catch((err) => {
       console.warn(err);
     });
-  }, [lib])
-
-  useEffect(() => {
-    if (lib == null) {
-      liabilities();
-    }
-  }) 
+  }, [])
 
   const showConnectToBank = () => {
     navigation.navigate("ConnectBankScreen", true);
   }
+
+  // useEffect(() => {
+  //   if (item == false) {
+  //     item = true;
+  //     unlink();
+  //   }
+  // }) 
 
   return (
         <ScrollView>
@@ -57,9 +58,11 @@ const SettingsScreen = ({ navigation, route }: any) => {
                         <Text style={styles.buttonText}>Connect to Bank</Text>
                     </TouchableOpacity>
                 
-                    <TouchableOpacity style={styles.buttonContainer}>
+                    <TouchableOpacity style={styles.buttonContainer} onPress={unlink}>
                         <Text style={styles.buttonText}>Disconnect From Bank</Text>
                     </TouchableOpacity>
+
+                    <Text>{item}</Text>
                 </View>
             </View>
         </ScrollView>
