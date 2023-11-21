@@ -15,7 +15,7 @@ const CreditCardScreen = () => {
   const address = '10.0.2.2';
 
   const [lib, setLib] = useState(null);
-  
+    
   const liabilities = useCallback(async () => {   
     await fetch(`http://${address}:8080/api/liabilities`, {
     method: "POST",
