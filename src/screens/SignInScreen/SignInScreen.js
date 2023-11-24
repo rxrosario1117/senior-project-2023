@@ -10,20 +10,34 @@ import auth from '@react-native-firebase/auth';
 
 
 const SignInScreen = () => {
+
+
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState(''); 
+    const [loginFail, setLoginFail] = useState(false);
+    const [err, setErr] = useState(''); 
 
     const {height} = useWindowDimensions();
-    const navigation = useNavigation(); 
+    const navigation = useNavigation();
+
+    
+
 
     GoogleSignin.configure({
         webClientId: '425443338100-fie9nft3pg27c43a3pef88f3cpmvmmm1.apps.googleusercontent.com',
       });
 
-    const onSignInPressed = () => {
+    const onSignInPressed = async () => {
         // validate user
-
-        navigation.navigate('BottomScreenNavigator')
+        try {
+            await auth().signInWithEmailAndPassword(username, password);
+            setLoginFail(false);
+            navigation.navigate('BottomScreenNavigator'); 
+        } catch (error) {
+            setLoginFail(true);
+            setErr(error.message);
+        }
+        
     };
 
     const onForgotPasswordPressed = () => {
@@ -58,6 +72,7 @@ const SignInScreen = () => {
     }; 
 
 
+
     return (
 
         <ScrollView>
@@ -69,7 +84,7 @@ const SignInScreen = () => {
             />
        
             <CustomInput 
-                placeholder="Username"
+                placeholder="Email"
                 value={username}
                 setValue={setUsername}
          
@@ -82,6 +97,12 @@ const SignInScreen = () => {
             />
 
             <CustomButton text="Sign In" onPress={onSignInPressed} />
+
+            {loginFail && (
+                <Text style={{color: 'red'}}>
+                   *{err}
+                </Text>
+            )}
            
             <CustomButton 
               text="Forgot password" 
@@ -105,6 +126,7 @@ const SignInScreen = () => {
         </View>
         </ScrollView>
     );
+    
 };
 
 const styles = StyleSheet.create({

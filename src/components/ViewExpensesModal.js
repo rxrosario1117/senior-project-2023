@@ -3,21 +3,49 @@ import { Modal, TextInput, Text, View, StyleSheet, TouchableOpacity } from "reac
 import { useState, useEffect, useRef } from 'react';
 import CustomButton from "./CustomButton";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { useBudgets } from "../contexts/BudgetsContext"
+import { useBudgets } from "../contexts/BudgetsContext";
+import firestore from '@react-native-firebase/firestore';
+import { ScrollView } from "react-native-gesture-handler";
+import { TabView } from "react-native-tab-view";
 
 
 
-export default function ViewExpensesModal({ budgetId, show = false, onClose }) {
+export default function ViewExpensesModal({ budgetId, show = false, onClose, updateBudgets }) {
 
     const [visible, setVisible] = useState(show);
-    const { getBudgetExpenses, budgets, deleteBudget, deleteExpense } = useBudgets()
+    const { getBudgetExpenses, deleteExpense } = useBudgets()
 
  
-    const expenses = getBudgetExpenses(budgetId)
-    const budget = budgets.find(b => b.id == budgetId) 
+    const [expenses, setExpenses] = useState([])
+    const [budgets, setBudgets] = useState([]);
+  
+    const budget = budgets.find(b => b.budgetID == budgetId) 
+
+    const fetchBudgets = async () => {
+        try {
+  
+          const budgetsSnapshot = await firestore().collection('Budgets').get();
+          const budgetsData = budgetsSnapshot.docs.map((doc) => doc.data());
+  
+          const expensesSnapshot = await firestore().collection('Expenses').get();
+          const expenseData = expensesSnapshot.docs.map((doc) => doc.data());
+   
+          setExpenses([]);
+          setBudgets([]);
+          
+  
+          setExpenses(expenseData);
+          setBudgets(budgetsData);
+          
+  
+        } catch (error) {
+          console.error('Error fetching budgets:', error);
+        }
+      };
+
 
     useEffect(() => {
-
+        fetchBudgets();
         setVisible(show); // Update the visibility state when the 'show' prop changes
       }, [show]);
 
@@ -33,6 +61,44 @@ export default function ViewExpensesModal({ budgetId, show = false, onClose }) {
         
     }
 
+    function deleteBudget(id) {
+
+        firestore()
+        .collection('Budgets')
+        .where('budgetID', '==', id)
+        .get()
+        .then(
+            querySnapshot => {
+            const doc = querySnapshot.docs[0];
+            doc.ref.delete();
+            updateBudgets();
+
+        })
+
+        firestore()
+        .collection('Expenses')
+        .where('budgetID', '==', id)
+        .get()
+        .then(
+            querySnapshot => {
+            
+                const batch = firestore().batch();
+
+                querySnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+
+                batch.commit();
+
+                
+
+                updateBudgets();
+            
+        })
+
+
+        
+    }
 
 
     return (
@@ -40,14 +106,14 @@ export default function ViewExpensesModal({ budgetId, show = false, onClose }) {
    
         
         <Modal visible={visible} animationType="slide">
-        <View style={{padding: 15, marginTop: 10, borderWidth: 2, borderColor: 'black'}}>
+        <View style={{padding: 15, marginTop: 10,}}>
 
 
 
 
-            <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+            <View style={{flexDirection:'row', justifyContent:'space-between', marginBottom: 30}}>
                 <Text style={{color: 'black', fontSize: 25, marginBottom: 25}}>
-                    Expenses - {budget?.name}
+                    Expenses  {budget?.name}
                 </Text>
 
 
@@ -59,20 +125,29 @@ export default function ViewExpensesModal({ budgetId, show = false, onClose }) {
 
 
 
+           
      
             {expenses.map(expense => (
-                <View>
-                    <Text>{expense.description}</Text>
-                    <Text>{expense.amount}</Text>
+                <View style={{marginBottom: 30}}>
+                    <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+                        <Text style={{fontSize: 20}}>{expense.description}</Text>
+                        <Text style={{fontSize: 20}}>${expense.amount}</Text>
+                    </View>
+                    <View>
+                        <Text>{expense.date}</Text>
+                    </View>
+                
                 </View>
             ))}
+       
 
-            <View>
+            <View style={{marginTop: 50}}>
                     <CustomButton 
                     type="QUATERNARY"
                     text="Delete Budget"
                     onPress={() => {
-                        deleteBudget(budget)
+                        
+                        deleteBudget(budget.budgetID)
                         closeModal()
                     }}/>
             </View>

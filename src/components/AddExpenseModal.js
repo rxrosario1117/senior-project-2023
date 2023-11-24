@@ -4,18 +4,45 @@ import CustomButton from "./CustomButton";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useBudgets } from "../contexts/BudgetsContext"
 import {Picker} from '@react-native-picker/picker';
+import firestore from '@react-native-firebase/firestore';
 
 
-export default function AddExpenseModal({ show = false, onClose, defaultBudgetId }) {
+export default function AddExpenseModal({ show = false, onClose, defaultBudgetId, updateBudgets }) {
 
     const [visible, setVisible] = useState(show);
-    const { addExpense, budgets } = useBudgets()
+    //const { addExpense, budgets } = useBudgets();
+    const [budgets, setBudgets] = useState([]);
 
 
     useEffect(() => {
         
         formData.budget = defaultBudgetId
-        setVisible(show); // Update the visibility state when the 'show' prop changes
+        let isMounted = true;
+
+        const fetchBudgets = async () => {
+          try {
+          
+            const budgetsSnapshot = await firestore().collection('Budgets').get();
+            const budgetsData = budgetsSnapshot.docs.map((doc) => doc.data());
+
+     
+            if (isMounted) {
+  
+              setBudgets([]);
+  
+     
+              setBudgets(budgetsData);
+            }
+  
+          } catch (error) {
+            console.error('Error fetching budgets:', error);
+          }
+        };
+    
+        fetchBudgets();
+        setVisible(show);
+ 
+         // Update the visibility state when the 'show' prop changes
       }, [show]);
 
     
@@ -57,17 +84,27 @@ export default function AddExpenseModal({ show = false, onClose, defaultBudgetId
 
         // Convert maxSpend to a float
         const amountCost = parseFloat(amount);
-        //const Id = parseInt(budget);
 
-    
-     
-        addExpense({
-            
+        const randID = Math.floor(Math.random() * (9999 - 1 + 1)) + 1;
+
+        const currentDateTime = new Date();
+
+        firestore()
+        .collection('Expenses')
+        .add({
+            ID: randID,
             description: description,
             amount: amountCost,
-            budgetId: budget
-            
+            budgetID: budget,
+            date: currentDateTime.toString()
         })
+        .then(() => {
+
+            updateBudgets()
+            console.log('Expense added!');
+
+        });
+    
     
         
         closeModal()
@@ -121,7 +158,7 @@ export default function AddExpenseModal({ show = false, onClose, defaultBudgetId
                
    
                {budgets.map(budget => (
-                    <Picker.Item label={budget.name} value={budget.id}/>
+                    <Picker.Item label={budget.budgetName} value={budget.budgetID}/>
                    
                 ))}
 
