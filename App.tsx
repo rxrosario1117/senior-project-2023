@@ -12,7 +12,7 @@ import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SuccessScreen from './src/screens/SuccessScreen';
 import { PlaidTheme } from './src/screens/style';
-import IdentityScreen from './src/screens/IdentityScreen';
+import CashScreen from './src/screens/CashScreen';
 import BalanceScreen from './src/screens/BalanceScreen';
 import AvailableProductsScreen from './src/screens/AvailableProductsScreen';
 import SavingsScreen from './src/screens/SavingsScreen';
@@ -23,8 +23,9 @@ import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import NewPasswordScreen from './src/screens/NewPasswordScreen';
 import EducationScreen from './src/screens/EducationScreen';
+import ConnectBankScreen from './src/screens/ConnectBankScreen';
 
-import TempScreen from './src/screens/TempScreen'
+import CreditCardScreen from './src/screens/CreditCardScreen'
 
 import BottomScreenNavigator from './src/components/BottomScreenNavigator';
 import TopScreenNavigator from './src/components/TopScreenNavigator';
@@ -61,9 +62,9 @@ const App = (): React.ReactElement => {
 
           <Stack.Screen name="TopScreenNavigator" component={TopScreenNavigator} />
 
-          <Stack.Screen name="Success" component={SuccessScreen} />
+          <Stack.Screen name="ConnectBankScreen" component={ConnectBankScreen} />
 
-          <Stack.Screen name="Identity" component={IdentityScreen} />
+          <Stack.Screen name="Cash" component={CashScreen} />
 
           <Stack.Screen name="Balance" component={BalanceScreen} />
 
@@ -83,7 +84,7 @@ const App = (): React.ReactElement => {
 
           <Stack.Screen name="Education" component={EducationScreen} />
 
-          <Stack.Screen name="TempScreen" component={TempScreen} />
+          <Stack.Screen name="TempScreen" component={CreditCardScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

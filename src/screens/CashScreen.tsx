@@ -1,5 +1,3 @@
-/*Dependencies for react-native-chart-kit: lodash, paths-js, point-in-polygon*/
-
 import React, {useState, useEffect, useCallback} from 'react';
 import {
   Text,
@@ -27,7 +25,9 @@ import TransactionsAPI from '../components/apiCall/Transactions/TransactionsAPI'
 import IdentityAPI from '../components/apiCall/Identity/IdentityAPI';
 import BalanceAPI from '../components/apiCall/Balance/BalanceAPI';
 
-const SavingsScreen = ({ navigation }: any) => {
+// var styles = require('./style');
+
+const CashScreen = ({ navigation, route }: any) => {
   let transactions = TransactionsAPI();
   let identity = IdentityAPI();
   let balance = BalanceAPI();
@@ -36,7 +36,7 @@ const SavingsScreen = ({ navigation }: any) => {
 
   // Set default month for the dropdown list
   const [selectedMonth, setSelectedMonth] = useState("January");
-  let savingsAccountBal = '';
+  let checkingAccountBal = '';
 
   // Get savings account from available accounts
   if (balance != null) {
@@ -45,12 +45,11 @@ const SavingsScreen = ({ navigation }: any) => {
     for (let i = 0; i < numOfAccounts; i++) {
       let currAccount = balance?.balance.Balance.accounts[i];
 
-      if (currAccount.subtype == 'savings') {
-        savingsAccountBal = currAccount.balances.current;
+      if (currAccount.subtype == 'checking') {
+        checkingAccountBal = currAccount.balances.current;
       }
     }
-  }
-  
+  }  
 
   // Dropdown list data
   const dropDownList = [
@@ -77,7 +76,7 @@ const SavingsScreen = ({ navigation }: any) => {
     )
   }
 
-  let savingsAccountList = []
+  let checkingsAccountList = []
   let numOfaccounts = identity.identity.Identity.accounts.length
   let numOfTransactions = transactions.transactions.transactions.length;
   let transactionDates = []
@@ -91,8 +90,8 @@ const SavingsScreen = ({ navigation }: any) => {
     let accountNum = identity.identity.Identity.accounts[i].account_id;
     let maskNum = identity.identity.Identity.accounts[i].mask;
   
-    if (name.includes("Saving")) {
-      savingsAccountList.push(accountNum)
+    if (name.includes("Checking")) {
+      checkingsAccountList.push(accountNum)
       accountLastFour.push(maskNum)
     }
   }
@@ -101,7 +100,7 @@ const SavingsScreen = ({ navigation }: any) => {
   for (let i = 0; i < numOfTransactions; i++) {
     let accountID = transactions.transactions.transactions[i].account_id;
     
-    if (accountID == savingsAccountList[0]) {
+    if (accountID == checkingsAccountList[0]) {
       transactionDates.push(transactions.transactions.transactions[i].authorized_date)
       transactionAmounts.push(transactions.transactions.transactions[i].amount)
     }
@@ -250,7 +249,7 @@ const SavingsScreen = ({ navigation }: any) => {
             chartConfig={{
               backgroundColor: "#e26a00",
               backgroundGradientFrom: "#a5088d",
-              backgroundGradientTo: "#8da508",
+              backgroundGradientTo: "#088DA5",
               decimalPlaces: 2, // optional, defaults to 2dp
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -272,7 +271,7 @@ const SavingsScreen = ({ navigation }: any) => {
           {/* under line chart */}
 
           <Text style={styles.subTitleText}>Account: ...{accountLastFour[0]}</Text>
-          <Text style={styles.subTitleText}>Current Balance: ${savingsAccountBal}</Text>
+          <Text style={styles.subTitleText}>Current Balance: ${checkingAccountBal}</Text>
 
           <SelectList 
             setSelected={(val) => setSelectedMonth(val)} 
@@ -315,15 +314,60 @@ const styles = StyleSheet.create({
 });
 
 const chartConfig = {
-    backgroundGradientFrom: "#1E2923",
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#08130D",
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    barPercentage: 0.5,
-    useShadowColorFromDataset: false // optional
-  };
+  backgroundGradientFrom: "#1E2923",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "#08130D",
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+  strokeWidth: 2, // optional, default 3
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false // optional
+};
 
+export default CashScreen;
 
-export default SavingsScreen;
+// // Mapping reference
+// const getTransactions = useCallback(async () => {
+//   await fetch(`http://${address}:8080/api/transactions/get`, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       "start_date": '2018-01-01',  
+//       "end_date": '2024-02-01'   
+//     }),
+//   })
+//   .then((response) => response.json())
+//   .then((data) => {
+//     let temp:Array<{date:string, amount:string, name:string}> = [];
+//     for (let i = 0; i < data.transactions.length; i++) {
+//       let date = data.transactions[i].authorized_date;
+//       let amount = data.transactions[i].amount;
+//       let name = data.transactions[i].merchant_name;
+//       let category = data.transactions[i].category[0];
+      
+//       let obj = {
+//         date,
+//         amount, 
+//         name,
+//         category
+//       };
+
+//       // Negative values can estimate income
+//       // if (amount < 0)
+//       temp.push(obj);
+//     }
+
+//     setTransactions(temp);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// }, []);
+
+// useEffect(() => {
+//   if (transactions == null) {
+//     getTransactions();
+//   }
+// }, [transactions, identity])

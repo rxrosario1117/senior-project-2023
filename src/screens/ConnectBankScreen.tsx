@@ -22,7 +22,7 @@ const HomeScreen = ({ navigation }: any) => {
     .then((response) => response.json())
     .then((data) => {
       setLinkToken(data.link_token);
-    })
+          })
     .catch((err) => {
       console.log(err);
     });
@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }: any) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      setIsTokenAvailable(data); 
+      setIsTokenAvailable(data.access_token); 
       console.log(data);     
     })
     .catch((err) => {
@@ -45,28 +45,30 @@ const HomeScreen = ({ navigation }: any) => {
     });
   }, [setIsTokenAvailable])
 
-  useEffect(() => {
+  useEffect(() => { 
     // If the token is good, move to the options screen (bypass login)
-    if (isTokenAvailable == null) {
-      console.log('searching')
-      searchToken();
-    }
+    // searchToken() doesn't have a public_token to use and will block connections to Plaid
+    // if (isTokenAvailable == null) {
+    //   console.log('searching')
+    //   searchToken();
+    // }
     if (isTokenAvailable) {
       console.log('found')
-      navigation.navigate('TopScreenNavigator', true);
+      navigation.navigate('BottomScreenNavigator', true);
     }
     if (linkToken == null) {
       console.log('create link token')
       createLinkToken();
-    }    
 
+      // navigation.navigate('BottomScreenNavigator', true);
+    }  
   }, [linkToken]);
   console.log("HomeScreen Start")
 
   return (
     <View style={{flex: 1}}>
       <View style={styles.heading}>
-        <Text style={styles.titleText}>Tiny Quickstart – React Native</Text>
+        <Text style={styles.titleText}>Connect to Your Bank</Text>
       </View>
       <View style={styles.bottom}>
         <PlaidLink
@@ -92,7 +94,7 @@ const HomeScreen = ({ navigation }: any) => {
             console.log(response);
           }}>
           <View style={styles.buttonContainer}>
-            <Text style={styles.buttonText}>Open Link</Text>
+            <Text style={styles.buttonText}>Connect</Text>
           </View>
         </PlaidLink>
       </View>

@@ -14,16 +14,29 @@ import BalanceAPI from '../components/apiCall/Balance/BalanceAPI';
 var styles = require('./style');
 
 const BalanceScreen = ({ navigation, route }: any) => {
-  const [data, setData] = useState(null);
   let balance = BalanceAPI();
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
-  const showIdentity = () => {
-      navigation.navigate("Identity", true);
-  }
+  let assets = [];
+  let liabilities = [];
+  let totalBalance = 0;
+  let numOfAccounts = 0;
 
-  const showOptions = () => {
-    navigation.navigate("Options", true);
+  if (balance != null) {
+    numOfAccounts = balance?.balance.Balance.accounts.length;
+    totalBalance = 0;
+    
+    // Fill accounts array and get account name/balance and the sum of all balances
+    for (let i = 0; i < numOfAccounts; i++) {
+      let currAccount = balance?.balance.Balance.accounts[i];
+      let accountSubtype = currAccount.subtype;
+
+      if (accountSubtype == 'credit card' || accountSubtype == 'student' || accountSubtype == 'mortgage') {
+        liabilities.push(currAccount);
+      } else {
+        assets.push(currAccount);
+      }
+    }   
   }
 
   // Shows the loading circle while waiting for the API to return info
@@ -39,28 +52,31 @@ const BalanceScreen = ({ navigation, route }: any) => {
     // <View style={{ flex: 1 }}>
     <ScrollView style={styles.scrollView}>
       <View style={styles.heading}>
-        <Text style={styles.titleText}>Show Identity/Balance</Text>
+        <Text style={styles.titleText}>Assets</Text>
       </View>
 
-      <ScrollView style={styles.scrollView}>
-        <Text style={styles.baseText}>          
-            {
-              JSON.stringify(balance, null, 2)
-            }
-            
-        </Text>
-      </ScrollView>
-           
-      <View style={styles.body}>
-      <TouchableOpacity style={styles.buttonContainer} onPress={showIdentity}>
-        <Text style={styles.buttonText}>Show Identity</Text>
-      </TouchableOpacity>
+      <View>
+        {
+          assets.map(asset => (
+            <>
+              <Text style={styles.subTitleText}>{asset.subtype}: $ {asset.balances.current}</Text>
+            </>
+          ))
+        }
       </View>
 
-      <View style={styles.body}>
-      <TouchableOpacity style={styles.buttonContainer} onPress={showOptions}>
-        <Text style={styles.buttonText}>Back To Options</Text>
-      </TouchableOpacity>
+      <View style={styles.heading}>
+        <Text style={styles.titleText}>Liabilities</Text>
+      </View>
+
+      <View>
+        {
+          liabilities.map(liability => (
+            <>
+              <Text style={styles.subTitleText}>{liability.subtype}: $ {liability.balances.current}</Text>
+            </>
+          ))
+        }
       </View>
     </ScrollView>
   );

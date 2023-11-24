@@ -55,7 +55,7 @@ app.post('/api/create_link_token', async (req, res, next) => {
       user: {client_user_id: req.sessionID},
       client_name: 'Plaid Tiny Quickstart - React Native',
       language: 'en',
-      products: ['auth', 'identity', 'transactions', 'assets'],
+      products: ['auth', 'identity', 'transactions', 'assets', 'liabilities'],
       country_codes: ['US'],
       android_package_name: process.env.PLAID_ANDROID_PACKAGE_NAME,
     };
@@ -80,12 +80,21 @@ app.post('/api/exchange_public_token', async (req, res, next) => {
   console.log("Token: "+ req.session.access_token);
 });
 
-// app.get('/api/useExistingToken', async (req, res, next) => {
-//   req.session.access_token = "access-sandbox-7f765ded-36f5-446b-8b39-0d8539160c4b";
-  
-  
-//   res.json(true);
-// });
+app.get('/api/useExistingToken', async (req, res, next) => {
+  if (req.session.access_token == null) {
+    const exchangeResponse = await client.itemPublicTokenExchange({
+      public_token: req.body.public_token,
+    });
+
+    req.session.access_token = exchangeResponse.data.access_token;
+    res.json(true);
+  } 
+  else {
+    res.json({
+      "access_token": req.session.access_token
+  });
+  }   
+});
 
 // Fetches balance data using the Node client library for Plaid
 app.post('/api/balance', async (req, res, next) => {
@@ -166,6 +175,34 @@ app.post('/api/transactions/get', async (req, res, next) => {
   });
 });
 
+// Call liabilities endpoint
+app.post('/api/liabilities', async (req, res, next) => {
+  // const request = {
+  //   client_id: process.env.PLAID_CLIENT_ID,
+  //   secret: process.env.PLAID_SECRET,
+  //   access_token: req.session.access_token
+  // };
+
+  // const request = LiabilitiesGetRequest = {
+  //   access_token: req.session.access_token
+  // };
+
+  const access_token = req.session.access_token;
+
+  try {
+    const liabilitiesResponse = await client.liabilitiesGet({access_token});
+
+    // console.log(liabilitiesResponse)
+
+    res.json({
+      liability: liabilitiesResponse.data,
+    });
+  } catch (err) {
+    console.log(err)
+  }   
+})
+
+// Listen for server start
 app.listen(port, () => {
   console.log(`Backend server is running on port ${port}...`);
 });
