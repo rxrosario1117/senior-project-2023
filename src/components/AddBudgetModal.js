@@ -3,18 +3,18 @@ import { useState, useEffect, useRef } from 'react';
 import CustomButton from "./CustomButton";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useBudgets } from "../contexts/BudgetsContext"
+import firestore from '@react-native-firebase/firestore';
 
 
 
-export default function AddBudgetModal({ show = false, onClose }) {
+export default function AddBudgetModal({ show = false, onClose, updateBudgets }) {
 
     const [visible, setVisible] = useState(show);
     const { addBudget } = useBudgets()
 
-
-
     useEffect(() => {
         setVisible(show); // Update the visibility state when the 'show' prop changes
+
       }, [show]);
 
     
@@ -49,15 +49,19 @@ export default function AddBudgetModal({ show = false, onClose }) {
 
         // Convert maxSpend to a float
         const max = parseFloat(maxSpend);
+        const randID = Math.floor(Math.random() * (9999 - 1 + 1)) + 1;
 
-        
-        addBudget({
-            
-
-            name: name,
-            max: max
-            
+        firestore()
+        .collection('Budgets')
+        .add({
+            budgetID: randID,
+            budgetMax: max,
+            budgetName: name,
         })
+        .then(() => {
+            updateBudgets()
+            console.log('Budget added!');
+        });
     
         
         closeModal()

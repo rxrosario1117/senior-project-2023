@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, useWindowDimensions, ScrollView } from 'react-n
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { useNavigation } from '@react-navigation/native';
+import auth from '@react-native-firebase/auth';
 
 const SignUpScreen = () => {
     const [username, setUsername] = useState('');
@@ -12,8 +13,26 @@ const SignUpScreen = () => {
 
     const navigation = useNavigation();
 
-    const onRegisterPressed = () => {
-        navigation.navigate('ConfirmEmail')
+    const onRegisterPressed = async () => {
+
+        auth()
+        .createUserWithEmailAndPassword(email, password)
+        .then(() => {
+            console.log('User account created & signed in!');
+            navigation.navigate('SignIn')
+        })
+        .catch(error => {
+            if (error.code === 'auth/email-already-in-use') {
+            console.log('That email address is already in use!');
+            }
+
+            if (error.code === 'auth/invalid-email') {
+            console.log('That email address is invalid!');
+            }
+
+            console.error(error);
+        });
+        
     };
 
 

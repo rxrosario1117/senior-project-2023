@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, Text, Image, StyleSheet, useWindowDimensions, ScrollView } from 'react-native';
 import CustomButton from '../../components/CustomButton';
 import BudgetCard from '../../components/BudgetCard';
@@ -6,14 +6,16 @@ import { useBudgets } from '../../contexts/BudgetsContext';
 import AddBudgetModal from '../../components/AddBudgetModal';
 import AddExpenseModal from '../../components/AddExpenseModal';
 import ViewExpensesModal from '../../components/ViewExpensesModal';
-
+import firestore from '@react-native-firebase/firestore';
 
 
 const GoalsScreen = () => {
  
 
     const [showMod, setShowMod] = useState(false);
-    const { expenses, budgets, getBudgetExpenses } = useBudgets()
+    const [expenses, setExpenses] = useState([])
+    const [budgets, setBudgets] = useState([]);
+    
 
     const [showAddExpenseMod, setShowAddExpenseMod] = useState(false)
     const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState()
@@ -23,14 +25,52 @@ const GoalsScreen = () => {
 
 
     const totalAmount = expenses.reduce((total, expense) => total + expense.amount, 0)
-    const totalMax = budgets.reduce((total, budget) => total + budget.max, 0)
+    const totalMax = budgets.reduce((total, budget) => total + budget.budgetMax, 0)
 
+
+    const fetchBudgets = async () => {
+      try {
+
+        const budgetsSnapshot = await firestore().collection('Budgets').get();
+        const budgetsData = budgetsSnapshot.docs.map((doc) => doc.data());
+
+        const expensesSnapshot = await firestore().collection('Expenses').get();
+        const expenseData = expensesSnapshot.docs.map((doc) => doc.data());
+ 
+        setExpenses([]);
+        setBudgets([]);
+        
+
+        setExpenses(expenseData);
+        setBudgets(budgetsData);
+        
+
+      } catch (error) {
+        console.error('Error fetching budgets:', error);
+      }
+    };
+
+    function getBudgetExpenses(budgetID) {
+      
+   
+      return expenses.filter(expense => expense.budgetID === budgetID)
+
+    }
+    
+
+    useEffect(() => {
+  
+      fetchBudgets();
+
+
+    }, []);
+    
     
     function openAddExpenseModal(budgetId) {
 
       
 
-      if (budgets.some(budget => budget.id === budgetId)) {
+      if (budgets.some(budget => budget.budgetID === budgetId)) {
 
         
         setAddExpenseModalBudgetId(budgetId)
@@ -46,7 +86,6 @@ const GoalsScreen = () => {
     }
 
     function openShowExpenseModal(budgetId) {
-      console.warn(budgetId)
       setViewExpensesModalBudgetId(budgetId)
       setShowViewExpenseMod(true)
     }
@@ -65,15 +104,14 @@ const GoalsScreen = () => {
       setShowAddExpenseMod(false);
       setShowViewExpenseMod(false);
     }
+
   
 
     return (
 
-
     <>
   
-
-    <View>
+    <ScrollView>
     
     
         <View
@@ -107,19 +145,21 @@ const GoalsScreen = () => {
         
         {budgets.map(budget => {
 
-          const amount = getBudgetExpenses(budget.id).reduce(
-            (total, expense) => total + expense.amount, 0)
-
-          
+          const amount = 
+          getBudgetExpenses(budget.budgetID).reduce(
+          (total, expense) => total + expense.amount, 0)
+       
+         
+        
           return(
 
             <BudgetCard 
-            key={budget.id}
-            name={budget.name} 
+            key={budget.budgetID}
+            name={budget.budgetName} 
             amount={amount} 
-            max={budget.max} 
-            onAddExpenseClick={() => openAddExpenseModal(budget.id)}
-            onViewExpenseClick={() => openShowExpenseModal(budget.id)}
+            max={budget.budgetMax} 
+            onAddExpenseClick={() => openAddExpenseModal(budget.budgetID)}
+            onViewExpenseClick={() => openShowExpenseModal(budget.budgetID)}
             />
           )
 
@@ -131,42 +171,25 @@ const GoalsScreen = () => {
       )}
   
 
-
-
-
-        
-
-        
-
-       
-
-     
-
-        
-   
-    </View>
+    </ScrollView>
    
     
     
-    <AddBudgetModal show={showMod} onClose={closeModal}/>
+    <AddBudgetModal show={showMod} onClose={closeModal} updateBudgets={fetchBudgets}/>
     
     <AddExpenseModal 
     show={showAddExpenseMod} 
     defaultBudgetId={addExpenseModalBudgetId}
-    onClose={closeModal}/>
+    onClose={closeModal}
+    updateBudgets={fetchBudgets}/>
 
-<ViewExpensesModal
+    <ViewExpensesModal
     show={showViewExpenseMod}
     budgetId={viewExpensesModalBudgetId}
     onClose={closeModal}
-
-  />
-
+    updateBudgets={fetchBudgets}/>
 
 
-   
-
-    
  
 
 
@@ -199,12 +222,3 @@ const styles = StyleSheet.create({
 
 export default GoalsScreen; 
 
-//<BudgetCard amount={totalAmount} name="Total" max={totalMax} hideButtons/>
-
-/*
- <ViewExpensesModal
-    budgetId={viewExpensesModalBudgetId}
-    handleClose={() => setViewExpensesModalBudgetId()}
-
-    />
-*/
