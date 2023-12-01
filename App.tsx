@@ -10,16 +10,27 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import SuccessScreen from './components/SuccessScreen';
-import HomeScreen from './components/HomeScreen';
-import { PlaidTheme } from './components/style';
-import OptionsScreen from './components/OptionsScreen';
-import IdentityScreen from './components/IdentityScreen';
-import BalanceScreen from './components/BalanceScreen';
-import AvailableProductsScreen from './components/AvailableProductsScreen';
-import SavingsScreen from './components/SavingsScreen';
+import SuccessScreen from './src/screens/SuccessScreen';
+import { PlaidTheme } from './src/screens/style';
+import CashScreen from './src/screens/CashScreen';
+import BalanceScreen from './src/screens/BalanceScreen';
+import AvailableProductsScreen from './src/screens/AvailableProductsScreen';
+import SavingsScreen from './src/screens/SavingsScreen';
+import AppHome from './AppHome'
+import SignInScreen from './src/screens/SignInScreen';
+import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
+import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
+import NewPasswordScreen from './src/screens/NewPasswordScreen';
+import EducationScreen from './src/screens/EducationScreen';
+import ConnectBankScreen from './src/screens/ConnectBankScreen';
 
-const Stack = createNativeStackNavigator();
+import CreditCardScreen from './src/screens/CreditCardScreen'
+
+import BottomScreenNavigator from './src/components/BottomScreenNavigator';
+import TopScreenNavigator from './src/components/TopScreenNavigator';
+
+// const Tab = createBottomTabNavigator();
 
 const App = (): React.ReactElement => {
   
@@ -27,86 +38,64 @@ const App = (): React.ReactElement => {
     SplashScreen.hide();
   }, []);
 
+  const Stack = createNativeStackNavigator();
+
+  // Removed for better readability, SHOULD PROB PUT BACK after component in each Stack.Screen tag
+    // options={{
+    //   headerStyle: {
+    //     backgroundColor: '#000000',
+    //   },
+    //   headerTintColor: '#fff',
+    // }}
+
   return (
     <SafeAreaProvider>
       <NavigationContainer theme={PlaidTheme}>
+        
         <StatusBar barStyle="light-content" backgroundColor="#000000" />
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Home"
-            component={HomeScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Success"
-            component={SuccessScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Options"
-            component={OptionsScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Identity"
-            component={IdentityScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Balance"
-            component={BalanceScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Products"
-            component={AvailableProductsScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-            }}
-          />
-          <Stack.Screen
-            name="Savings"
-            component={SavingsScreen}
-            options={{
-              headerStyle: {
-                backgroundColor: '#000000',
-              },
-              headerTintColor: '#fff',
-              
-            }}
-          />
+
+        <Stack.Navigator> 
+
+          <Stack.Screen name="SignInScreen" component={SignInScreen} options={{headerShown: false}} />     
+
+          <Stack.Screen name="BottomScreenNavigator" component={BottomScreenNavigator} options={{headerShown: false}} />        
+
+          <Stack.Screen name="TopScreenNavigator" component={TopScreenNavigator} />
+
+          <Stack.Screen name="ConnectBankScreen" component={ConnectBankScreen} />
+
+          <Stack.Screen name="Cash" component={CashScreen} />
+
+          <Stack.Screen name="Balance" component={BalanceScreen} />
+
+          <Stack.Screen name="Products" component={AvailableProductsScreen} />
+
+          <Stack.Screen name="Savings" component={SavingsScreen} />
+
+          <Stack.Screen name="SignIn" component={SignInScreen} />
+
+          <Stack.Screen name="SignUp" component={SignUpScreen} />
+
+          <Stack.Screen name="Confirm" component={ConfirmEmailScreen} />
+
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+
+          <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
+
+          <Stack.Screen name="Education" component={EducationScreen} />
+
+          <Stack.Screen name="TempScreen" component={CreditCardScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
   );
 };
+
+const styles = StyleSheet.create({
+  root: {
+      flex: 1,
+      backgroundColor: '#F9FBFC'
+  },
+});
 
 export default App;
