@@ -12,7 +12,7 @@ export default function BottomScreenNavigator() {
     const Tab = createBottomTabNavigator();
     
       return (
-        <Tab.Navigator initialRouteName='Education' screenOptions={{headerShown: false}}>
+        <Tab.Navigator initialRouteName='Goals' screenOptions={{headerShown: false}}>
           <Tab.Screen
             name='Home'
             component={TopScreenNavigator}

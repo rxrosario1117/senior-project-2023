@@ -38,6 +38,7 @@ const client = new PlaidApi(config);
 //Creates a Link token and return it
 app.post('/api/create_link_token', async (req, res, next) => {
   let payload = {};
+  console.log('from create link token')
   console.log(req.body);
   //Payload if running iOS
   if (req.body.address === 'localhost') {
@@ -130,12 +131,17 @@ app.post('/api/investments/holdings/get', async (req, res, next) => {
 
 // Fetches Plaid products available to us
 app.post('/api/item/get', async (req, res, next) => {
-  console.log("item")
   const access_token = req.session.access_token;
-  const itemResponse = await client.itemGet({access_token});
-  res.json({
-    item: itemResponse.data,
-  });
+
+  try {
+    const itemResponse = await client.itemGet({access_token});
+    res.json({
+      item: itemResponse.data,
+    });
+  } catch (err) {
+    console.log(err)
+  }
+  
 });
 
 // Fetches Plaid products available to us
@@ -177,22 +183,10 @@ app.post('/api/transactions/get', async (req, res, next) => {
 
 // Call liabilities endpoint
 app.post('/api/liabilities', async (req, res, next) => {
-  // const request = {
-  //   client_id: process.env.PLAID_CLIENT_ID,
-  //   secret: process.env.PLAID_SECRET,
-  //   access_token: req.session.access_token
-  // };
-
-  // const request = LiabilitiesGetRequest = {
-  //   access_token: req.session.access_token
-  // };
-
   const access_token = req.session.access_token;
 
   try {
     const liabilitiesResponse = await client.liabilitiesGet({access_token});
-
-    // console.log(liabilitiesResponse)
 
     res.json({
       liability: liabilitiesResponse.data,
@@ -200,6 +194,21 @@ app.post('/api/liabilities', async (req, res, next) => {
   } catch (err) {
     console.log(err)
   }   
+})
+
+app.post('/api/itemRemove', async (req, res, next) => {
+  const access_token = req.session.access_token;
+
+  try {
+    const response = await client.itemRemove({access_token});
+
+    res.json({
+      itemResponse: response.data,
+    });   
+
+  } catch (err) {
+      console.log(err)
+  }
 })
 
 // Listen for server start

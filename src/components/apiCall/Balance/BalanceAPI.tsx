@@ -18,7 +18,7 @@ export default () => {
           setBalance(data);
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err) + " balanceAPI"; 
         });
       }, []);
 
