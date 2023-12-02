@@ -49,7 +49,6 @@ const BalanceScreen = ({ navigation, route }: any) => {
   }
 
   return (
-    // <View style={{ flex: 1 }}>
     <ScrollView style={styles.scrollView}>
       <View style={styles.heading}>
         <Text style={styles.titleText}>Assets</Text>

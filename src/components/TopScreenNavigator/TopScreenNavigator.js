@@ -38,7 +38,7 @@ export default function TopScreenNavigator() {
         }
     })
     .catch((err) => {
-        console.log(err);
+        console.log(err) + " screen nav";
     });
 }, []);
 

@@ -7,16 +7,12 @@ import {
   SafeAreaView,
   useColorScheme,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import SuccessScreen from './src/screens/SuccessScreen';
 import { PlaidTheme } from './src/screens/style';
 import CashScreen from './src/screens/CashScreen';
 import BalanceScreen from './src/screens/BalanceScreen';
-import AvailableProductsScreen from './src/screens/AvailableProductsScreen';
 import SavingsScreen from './src/screens/SavingsScreen';
-import AppHome from './AppHome'
 import SignInScreen from './src/screens/SignInScreen';
 import SignUpScreen from './src/screens/SignUpScreen/SignUpScreen';
 import ConfirmEmailScreen from './src/screens/ConfirmEmailScreen';
@@ -66,8 +62,6 @@ const App = (): React.ReactElement => {
           <Stack.Screen name="Cash" component={CashScreen} />
 
           <Stack.Screen name="Balance" component={BalanceScreen} />
-
-          <Stack.Screen name="Products" component={AvailableProductsScreen} />
 
           <Stack.Screen name="Savings" component={SavingsScreen} />
 
