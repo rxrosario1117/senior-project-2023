@@ -63,7 +63,7 @@ function setItemIDNull() {
 }
 
   if (itemID != null) {
-    return (      
+    return (
       <Tab.Navigator initialRouteName='Savings'>
         <Tab.Screen name="Savings" component={SavingsScreen} />
         <Tab.Screen name="Cash" component={CashScreen} />

@@ -12,7 +12,9 @@ const app = express();
 const port = 8080;
 
 app.use(
-  session({secret: 'superSecret', saveUninitialized: true, resave: true}),
+  // FOR DEMO PURPOSES ONLY
+  // Use an actual secret key in production
+  session({secret: 'bosco', saveUninitialized: true, resave: true}),
 );
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -70,6 +72,8 @@ app.post('/api/exchange_public_token', async (req, res, next) => {
     public_token: req.body.public_token,
   });
 
+  // FOR DEMO PURPOSES ONLY
+  // Store access_token in DB instead of session storage
   req.session.access_token = exchangeResponse.data.access_token;
   res.json(true);
 
