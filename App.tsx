@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+
+
 import { PlaidTheme } from './src/screens/style';
 import CashScreen from './src/screens/CashScreen';
 import BalanceScreen from './src/screens/BalanceScreen';

@@ -1,7 +1,3 @@
-/*
-server.js – Configures the Plaid client and uses Express to defines routes that call Plaid endpoints in the Sandbox environment. Utilizes the official Plaid node.js client library to make calls to the Plaid API.
-*/
-
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -12,16 +8,14 @@ const app = express();
 const port = 8080;
 
 app.use(
-  // FOR DEMO PURPOSES ONLY
-  // Use an actual secret key in production
-  session({secret: 'bosco', saveUninitialized: true, resave: true}),
+  session({secret: 'superSecret', saveUninitialized: true, resave: true}),
 );
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
 // Configuration for the Plaid client
-const config = new Configuration({
+const configuration = new Configuration({
   basePath: PlaidEnvironments[process.env.PLAID_ENV],
   baseOptions: {
     headers: {
@@ -33,18 +27,16 @@ const config = new Configuration({
 });
 
 //Instantiate the Plaid client with the configuration
-const client = new PlaidApi(config);
+const plaidClient = new PlaidApi(configuration);
 
 //Creates a Link token and return it
 app.post('/api/create_link_token', async (req, res, next) => {
   let payload = {};
-  console.log('from create link token')
-  console.log(req.body);
   //Payload if running iOS
   if (req.body.address === 'localhost') {
     payload = {
       user: {client_user_id: req.sessionID},
-      client_name: 'Plaid Tiny Quickstart - React Native',
+      client_name: 'BudgetBuddy',
       language: 'en',
       products: ['auth'],
       country_codes: ['US'],
@@ -54,26 +46,24 @@ app.post('/api/create_link_token', async (req, res, next) => {
     //Payload if running Android
     payload = {
       user: {client_user_id: req.sessionID},
-      client_name: 'Plaid Tiny Quickstart - React Native',
+      client_name: 'BudgetBuddy',
       language: 'en',
       products: ['auth', 'identity', 'transactions', 'assets', 'liabilities'],
       country_codes: ['US'],
       android_package_name: process.env.PLAID_ANDROID_PACKAGE_NAME,
     };
   }
-  const tokenResponse = await client.linkTokenCreate(payload);
+  const tokenResponse = await plaidClient.linkTokenCreate(payload);
   console.log(tokenResponse.data);
   res.json(tokenResponse.data);
 });
 
 // Exchanges the public token from Plaid Link for an access token
 app.post('/api/exchange_public_token', async (req, res, next) => {
-  const exchangeResponse = await client.itemPublicTokenExchange({
+  const exchangeResponse = await plaidClient.itemPublicTokenExchange({
     public_token: req.body.public_token,
   });
 
-  // FOR DEMO PURPOSES ONLY
-  // Store access_token in DB instead of session storage
   req.session.access_token = exchangeResponse.data.access_token;
   res.json(true);
 
@@ -83,7 +73,7 @@ app.post('/api/exchange_public_token', async (req, res, next) => {
 
 app.get('/api/useExistingToken', async (req, res, next) => {
   if (req.session.access_token == null) {
-    const exchangeResponse = await client.itemPublicTokenExchange({
+    const exchangeResponse = await plaidClient.itemPublicTokenExchange({
       public_token: req.body.public_token,
     });
 
@@ -102,7 +92,7 @@ app.post('/api/balance', async (req, res, next) => {
   const access_token = req.session.access_token;
   console.log('----------------------------------------Balance Access Token----------------------------------------')
   console.log(access_token);
-  const balanceResponse = await client.accountsBalanceGet({access_token});
+  const balanceResponse = await plaidClient.accountsBalanceGet({access_token});
   res.json({
     Balance: balanceResponse.data,
   });
@@ -113,7 +103,7 @@ app.post('/api/identity', async (req, res, next) => {
   const access_token = req.session.access_token;
   console.log('----------------------------------------Identity Access Token----------------------------------------')
   console.log(access_token);
-  const identityResponse = await client.identityGet({access_token});
+  const identityResponse = await plaidClient.identityGet({access_token});
   res.json({
     Identity: identityResponse.data,
   });
@@ -123,7 +113,7 @@ app.post('/api/identity', async (req, res, next) => {
 app.post('/api/investments/holdings/get', async (req, res, next) => {
   console.log("investments")
   const access_token = req.session.access_token;
-  const investmentResponse = await client.investmentsHoldingsGet({access_token});
+  const investmentResponse = await plaidClient.investmentsHoldingsGet({access_token});
   res.json({
     Investments: investmentResponse.data,
   });
@@ -134,7 +124,7 @@ app.post('/api/item/get', async (req, res, next) => {
   const access_token = req.session.access_token;
 
   try {
-    const itemResponse = await client.itemGet({access_token});
+    const itemResponse = await plaidClient.itemGet({access_token});
     res.json({
       item: itemResponse.data,
     });
@@ -155,7 +145,7 @@ app.post('/api/transactions/get', async (req, res, next) => {
   };
   console.log("first transactionGet")
 
-  const response = await client.transactionsGet(request);
+  const response = await plaidClient.transactionsGet(request);
   let transactions = response.data.transactions;
   const total_transactions = response.data.total_transactions;
 
@@ -169,7 +159,7 @@ app.post('/api/transactions/get', async (req, res, next) => {
         offset: transactions.length
       },
     };
-    const paginatedResponse = await client.transactionsGet(paginatedRequest);
+    const paginatedResponse = await plaidClient.transactionsGet(paginatedRequest);
     transactions = transactions.concat(
       paginatedResponse.data.transactions,
     );
@@ -186,7 +176,7 @@ app.post('/api/liabilities', async (req, res, next) => {
   const access_token = req.session.access_token;
 
   try {
-    const liabilitiesResponse = await client.liabilitiesGet({access_token});
+    const liabilitiesResponse = await plaidClient.liabilitiesGet({access_token});
 
     res.json({
       liability: liabilitiesResponse.data,
@@ -200,7 +190,7 @@ app.post('/api/itemRemove', async (req, res, next) => {
   const access_token = req.session.access_token;
 
   try {
-    const response = await client.itemRemove({access_token});
+    const response = await plaidClient.itemRemove({access_token});
 
     res.json({
       itemResponse: response.data,
