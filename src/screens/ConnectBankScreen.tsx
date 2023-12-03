@@ -1,10 +1,8 @@
-import { link } from 'fs';
 import React, {useState, useEffect, useCallback} from 'react';
 import { Platform, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import {PlaidLink, LinkExit, LinkSuccess } from 'react-native-plaid-link-sdk';
 
 var styles = require('./style');
-
 
 const HomeScreen = ({ navigation }: any) => {
   const [linkToken, setLinkToken] = useState(null);
@@ -28,22 +26,22 @@ const HomeScreen = ({ navigation }: any) => {
     });
   }, [setLinkToken])
 
-  const searchToken = useCallback(async () => {   
-    await fetch(`http://${address}:8080/api/useExistingToken`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-    })
-    .then((response) => response.json())
-    .then((data) => {
-      setIsTokenAvailable(data.access_token); 
-      console.log(data);     
-    })
-    .catch((err) => {
-      console.warn(err);
-    });
-  }, [setIsTokenAvailable])
+  // const searchToken = useCallback(async () => {   
+  //   await fetch(`http://${address}:8080/api/useExistingToken`, {
+  //   method: "GET",
+  //   headers: {
+  //     "Content-Type": "application/json"
+  //   }
+  //   })
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     setIsTokenAvailable(data.access_token); 
+  //     console.log(data);     
+  //   })
+  //   .catch((err) => {
+  //     console.warn(err);
+  //   });
+  // }, [setIsTokenAvailable])
 
   useEffect(() => { 
     // If the token is good, move to the options screen (bypass login)
